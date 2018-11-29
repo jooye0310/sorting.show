@@ -10,53 +10,51 @@ import android.widget.TextView;
 
 import java.util.Comparator;
 
-public class RadixSortDemo extends AppCompatActivity {
+public class QuickSortController extends AppCompatActivity {
 
     TextView unsorted_list, sorted_list;
-    Button btn_timSort, btn_goBack;
+    Button btn_doSort, btn_goBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_radixsortdemo);
+        setContentView(R.layout.activity_quicksortdemo);
 
         initTextViews();
         initButtons();
 
-        // Initialize variables for RadixSort;
-//        final Integer[] array = new Integer[] {7, 8, 6, 10, 5, 4, 3, 2, 1, 9};
-        final int[] array1 ={7,8,6,10,5,4,3,2,1,9};
+        // Initialize variables for MergeSort
+        final Integer[] array = new Integer[] {7, 8, 6, 10, 5, 4, 3, 2, 1, 9};
 
-        String unsorted = intArrayToString(array1);
+        String unsorted = intArrayToString(array);
         unsorted_list.setText(unsorted);
 
-        btn_timSort.setOnClickListener(new View.OnClickListener() {
+        btn_doSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // do radix sort using int[] array
-                doRadixSort(array1);
-                String sorted = intArrayToString(array1);
+                // Use DualPivotSort to sort the integer array
+                doSort(array);
+                String sorted = intArrayToString(array);
                 sorted_list.setText(sorted);
             }
         });
     }
 
-
-    private int[] doRadixSort(int[] a){
-        int length = a.length;
-        RadixSort radixSort = new RadixSort(a, length);
-        radixSort.radixsort(a, length);
+    // Sort the array using MergeSort
+    private Integer[] doSort(Integer[] a) {
+        QuickSort qSort = new QuickSort();
+        qSort.sort(a, 0, a.length-1);
         return a;
     }
 
     // Converts an integer array to a string
-    private String intArrayToString(int[] intArray) {
+    private String intArrayToString(Integer[] intArray) {
         String intArrayString = "";
         for (int i = 0; i < intArray.length; i++) {
             if (i < intArray.length - 1)
-                intArrayString += intArray[i] + ", ";
+                intArrayString += intArray[i].toString() + ", ";
             else
-                intArrayString += intArray[i];
+                intArrayString += intArray[i].toString();
         }
         return intArrayString;
     }
@@ -69,7 +67,7 @@ public class RadixSortDemo extends AppCompatActivity {
     }
 
     private void initButtons() {
-        btn_timSort = (Button) findViewById(R.id.btn_doSort);
+        btn_doSort = (Button) findViewById(R.id.btn_doSort);
         btn_goBack = (Button) findViewById(R.id.btn_goBack);
         btn_goBack.setOnClickListener(new ButtonListener());
     }

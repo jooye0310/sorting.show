@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.Comparator;
 
-public class InsertionSortDemo extends AppCompatActivity {
+public class InsertionSortController extends AppCompatActivity {
 
     TextView unsorted_list, sorted_list;
     Button btn_timSort, btn_goBack;

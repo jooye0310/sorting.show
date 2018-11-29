@@ -36,42 +36,42 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()){
                 // Tim Sort selected
                 case R.id.btn_doSort:
-                    Intent timSortIntent = new Intent(MainActivity.this, TimSortDemo.class);
+                    Intent timSortIntent = new Intent(MainActivity.this, TimSortController.class);
                     myData = new Bundle();
                     myData.putInt("myRequestCode", 101);
                     startActivityForResult(timSortIntent, 101);
                     break;
                 // Dual Pivot Quick Sort selected
                 case R.id.btn_dualPivotQuickSort:
-                    Intent dualPivotQuickSortIntent = new Intent(MainActivity.this, DualPivotQuickSortDemo.class);
+                    Intent dualPivotQuickSortIntent = new Intent(MainActivity.this, DualPivotQuickSortController.class);
                     myData = new Bundle();
                     myData.putInt("myRequestCode", 102);
                     startActivityForResult(dualPivotQuickSortIntent, 102);
                     break;
                 // Radix Sort button selected
                 case R.id.btn_radixSort:
-                    Intent radixSortIntent = new Intent(MainActivity.this, RadixSortDemo.class);
+                    Intent radixSortIntent = new Intent(MainActivity.this, RadixSortController.class);
                     myData = new Bundle();
                     myData.putInt("myRequestCode", 103);
                     startActivityForResult(radixSortIntent, 103);
                     break;
                 // Insertion Sort selected
                 case R.id.btn_insertionSort:
-                    Intent insertionSortIntent = new Intent(MainActivity.this, InsertionSortDemo.class);
+                    Intent insertionSortIntent = new Intent(MainActivity.this, InsertionSortController.class);
                     myData = new Bundle();
                     myData.putInt("myRequestCode", 104);
                     startActivityForResult(insertionSortIntent, 104);
                     break;
                 // Merge Sort selected
                 case R.id.btn_mergeSort:
-                    Intent mergeSortIntent = new Intent(MainActivity.this, MergeSortDemo.class);
+                    Intent mergeSortIntent = new Intent(MainActivity.this, MergeSortController.class);
                     myData = new Bundle();
                     myData.putInt("myRequestCode", 105);
                     startActivityForResult(mergeSortIntent, 105);
                     break;
                 // Quick Sort button clicked
                 case R.id.btn_quickSort:
-                    Intent quickSortIntent = new Intent(MainActivity.this, QuickSortDemo.class);
+                    Intent quickSortIntent = new Intent(MainActivity.this, QuickSortController.class);
                     myData = new Bundle();
                     myData.putInt("myRequestCode", 106);
                     startActivityForResult(quickSortIntent, 106);

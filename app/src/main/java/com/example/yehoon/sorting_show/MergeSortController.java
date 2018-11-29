@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.Comparator;
 
-public class QuickSortDemo extends AppCompatActivity {
+public class MergeSortController extends AppCompatActivity {
 
     TextView unsorted_list, sorted_list;
     Button btn_doSort, btn_goBack;
@@ -18,7 +18,7 @@ public class QuickSortDemo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quicksortdemo);
+        setContentView(R.layout.activity_mergesortdemo);
 
         initTextViews();
         initButtons();
@@ -42,8 +42,8 @@ public class QuickSortDemo extends AppCompatActivity {
 
     // Sort the array using MergeSort
     private Integer[] doSort(Integer[] a) {
-        QuickSort qSort = new QuickSort();
-        qSort.sort(a, 0, a.length-1);
+        MergeSort mSort = new MergeSort();
+        mSort.sort(a, 0, a.length-1);
         return a;
     }
 

@@ -16,12 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TimSortDemo"></activity>
-        <activity android:name=".DualPivotQuickSortDemo"></activity>
-        <activity android:name=".RadixSortDemo"></activity>
-        <activity android:name=".InsertionSortDemo"></activity>
-        <activity android:name=".MergeSortDemo"></activity>
-        <activity android:name=".QuickSortDemo"></activity>
+        <activity android:name=".TimSortController"></activity>
+        <activity android:name=".DualPivotQuickSortController"></activity>
+        <activity android:name=".RadixSortController"></activity>
+        <activity android:name=".InsertionSortController"></activity>
+        <activity android:name=".MergeSortController"></activity>
+        <activity android:name=".QuickSortController"></activity>
     </application>
 
 </manifest>

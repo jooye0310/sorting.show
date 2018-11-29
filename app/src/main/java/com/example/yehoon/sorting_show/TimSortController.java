@@ -10,40 +10,51 @@ import android.widget.TextView;
 
 import java.util.Comparator;
 
-public class DualPivotQuickSortDemo extends AppCompatActivity {
+public class TimSortController extends AppCompatActivity {
 
     TextView unsorted_list, sorted_list;
-    Button btn_doSort, btn_goBack;
+    Button btn_timSort, btn_goBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dualpivotquicksortdemo);
+        setContentView(R.layout.activity_timsortdemo);
 
         initTextViews();
         initButtons();
 
-        // Initialize variables for MergeSort
+        // Initialize variables (a, c) for TimSort
         final Integer[] array = new Integer[] {7, 8, 6, 10, 5, 4, 3, 2, 1, 9};
+        final Comparator<Integer> c = new Comparator<Integer>() {
+            @Override
+            public int compare(Integer integer, Integer t1) {
+                if (integer < t1)
+                    return -1;
+                else if (integer > t1)
+                    return 1;
+                else
+                    return 0;
+            }
+        };
 
         String unsorted = intArrayToString(array);
         unsorted_list.setText(unsorted);
 
-        btn_doSort.setOnClickListener(new View.OnClickListener() {
+        btn_timSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Use DualPivotSort to sort the integer array
-                doSort(array);
+                // Use TimSort to sort the integer array
+                doTimSort(array, c);
                 String sorted = intArrayToString(array);
                 sorted_list.setText(sorted);
             }
         });
     }
 
-    // Sort the array using DualPivotQuickSort
-    private Integer[] doSort(Integer[] a) {
-        DualPivotQuickSort dpSort = new DualPivotQuickSort();
-        dpSort.sort(a);
+    // Sort the array using TimSort
+    private Integer[] doTimSort(Integer[] a, Comparator<Integer> c) {
+        TimSort timSort = new TimSort(a, c);
+        timSort.sort(a, c);
         return a;
     }
 
@@ -67,7 +78,7 @@ public class DualPivotQuickSortDemo extends AppCompatActivity {
     }
 
     private void initButtons() {
-        btn_doSort = (Button) findViewById(R.id.btn_doSort);
+        btn_timSort = (Button) findViewById(R.id.btn_doSort);
         btn_goBack = (Button) findViewById(R.id.btn_goBack);
         btn_goBack.setOnClickListener(new ButtonListener());
     }
