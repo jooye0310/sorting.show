@@ -18,8 +18,11 @@ public class InsertionSortController extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insertionsortdemo);
-
-        final int[] intArray = {4,7,6,8,9,5,9,1,3,2};
+        int[] input = new int[32];
+        for (int i = 0; i < input.length;i++){
+            input[i] = (int)(Math.random() * 15 + 1);
+        }
+        final int[] intArray = input;
         DataSet ds = new DataSet(intArray, 0);
         final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.INSERTION_SORT, ds);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
