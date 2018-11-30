@@ -16,6 +16,7 @@ public class VisualizerController extends HandlerThread implements DataHandler {
     public static final String SELECTION_SORT = "selection_sort";
     public static final String QUICKSORT = "quicksort";
     public static final String N_QUEENS = "n_queens";
+    public static final String RADIX_SORT = "radix_sort";
 
     public LogFragment logFragment;
     public Activity activity;
