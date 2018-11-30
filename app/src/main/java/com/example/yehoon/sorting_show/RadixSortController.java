@@ -19,10 +19,11 @@ public class RadixSortController extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_radixsortdemo);
-        final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.RADIX_SORT, null);
+        final int[] intArray = {4,7,6,8,9,5,9,1,3,2};
+        DataSet ds = new DataSet(intArray, intArray.length);
+        final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.RADIX_SORT, ds);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
-
-        initTextViews();
+//        initTextViews();
 //        initButtons();
 
         // Initialize variables for RadixSort;
@@ -30,17 +31,17 @@ public class RadixSortController extends AppCompatActivity {
         final int[] array1 ={702,2,3,50,5,52,3,57,1,108};
 
         String unsorted = intArrayToString(array1);
-        unsorted_list.setText(unsorted);
+//        unsorted_list.setText(unsorted);
 
-        btn_timSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // do radix sort using int[] array
-                doRadixSort(array1);
-                String sorted = intArrayToString(array1);
-                sorted_list.setText(sorted);
-            }
-        });
+//        btn_timSort.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // do radix sort using int[] array
+//                doRadixSort(array1);
+//                String sorted = intArrayToString(array1);
+//                sorted_list.setText(sorted);
+//            }
+//        });
     }
 
 
@@ -65,9 +66,9 @@ public class RadixSortController extends AppCompatActivity {
 
     private void initTextViews() {
         unsorted_list = (TextView) findViewById(R.id.unsorted_list);
-        sorted_list = (TextView) findViewById(R.id.sorted_list);
+//        sorted_list = (TextView) findViewById(R.id.sorted_list);
         unsorted_list.setText("");
-        sorted_list.setText("");
+//        sorted_list.setText("");
     }
 
     private void initButtons() {
