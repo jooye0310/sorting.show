@@ -138,6 +138,14 @@ public class MainFragment extends Fragment{
                 DataSet dss2 = (DataSet) ds;
                 ((TimSort) algorithm).setData(dss2);
                 break;
+            case VisualizerController.RADIX_SORT:
+                visualizer = new SortingVisualizer(getActivity());
+                appBarLayout.addView(visualizer);
+                algorithm = new RadixSort();
+                algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
+                DataSet dss3 = (DataSet) ds;
+                ((RadixSort) algorithm).setData(dss3);
+                break;
             default:
                 visualizer = null;
         }
