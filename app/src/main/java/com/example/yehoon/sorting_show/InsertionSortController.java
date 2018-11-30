@@ -33,12 +33,6 @@ public class InsertionSortController extends AppCompatActivity {
         unsorted_list.setText(unsorted);
     }
 
-    // Sort the array using TimSort
-    private int[] doInsertionSort(int[] a) {
-        InsertionSort basicsort = new InsertionSort();
-        basicsort.InsertionSort(a);
-        return a;
-    }
 
     // Converts an integer array to a string
     private String intArrayToString(int[] intArray) {

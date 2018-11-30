@@ -29,13 +29,13 @@ public abstract class AlgorithmVisualizer extends View {
         int modifieddp = dp;
         switch (density) {
             case DisplayMetrics.DENSITY_LOW:
-                modifieddp = dp - dp / 2;
+                modifieddp = dp - dp / 5;
                 break;
             case DisplayMetrics.DENSITY_MEDIUM:
-                modifieddp = dp - dp / 3;
+                modifieddp = dp - dp / 6;
                 break;
             case DisplayMetrics.DENSITY_HIGH:
-                modifieddp = dp - dp / 4;
+                modifieddp = dp - dp / 7;
                 break;
             case DisplayMetrics.DENSITY_XHIGH:
             case DisplayMetrics.DENSITY_XXHIGH:

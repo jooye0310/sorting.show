@@ -125,7 +125,7 @@ public class MainFragment extends Fragment{
                 appBarLayout.addView(visualizer);
                 algorithm = new InsertionSort();
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
-                final int[] intArray = {3,7,4,8,9,5,9,1,3,2};
+                final int[] intArray = {3,7,4,8,9,5,9,1,500,2};
                 ((InsertionSort) algorithm).setData(intArray);
                 break;
             default:
