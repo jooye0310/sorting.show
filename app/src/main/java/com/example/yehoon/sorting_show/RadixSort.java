@@ -74,9 +74,9 @@ public class RadixSort extends VisualizerController{
     @Override
     public void onDataRecieved(Object data) {
         super.onDataRecieved(data);
-        
+
         this.a = (int[]) data;
-        this.n = (int) data; // Getting the right data structure from the data
+        this.n = (int) data; // Getting the right data structure from the data from
     }
 
     @Override

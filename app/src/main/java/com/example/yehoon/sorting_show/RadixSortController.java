@@ -19,9 +19,11 @@ public class RadixSortController extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_radixsortdemo);
+        final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.RADIX_SORT);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
 
         initTextViews();
-        initButtons();
+//        initButtons();
 
         // Initialize variables for RadixSort;
 //        final Integer[] array = new Integer[] {7, 8, 6, 10, 5, 4, 3, 2, 1, 9};
@@ -69,9 +71,9 @@ public class RadixSortController extends AppCompatActivity {
     }
 
     private void initButtons() {
-        btn_timSort = (Button) findViewById(R.id.btn_doSort);
-        btn_goBack = (Button) findViewById(R.id.btn_goBack);
-        btn_goBack.setOnClickListener(new ButtonListener());
+//        btn_timSort = (Button) findViewById(R.id.btn_doSort);
+//        btn_goBack = (Button) findViewById(R.id.btn_goBack);
+//        btn_goBack.setOnClickListener(new ButtonListener());
     }
 
     // Click listener for buttons
