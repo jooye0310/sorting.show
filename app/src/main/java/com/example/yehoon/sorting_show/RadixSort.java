@@ -2,15 +2,19 @@ package com.example.yehoon.sorting_show;
 
 import java.util.Arrays;
 
-public class RadixSort {
+public class RadixSort extends VisualizerController{
+    @Override
+    public void run() {
+        super.run();
+    }
 
     private int[] a;
     private int n;  //length of array;
 
-    public RadixSort(int[] a, int n){
-        this.a = a;
-        this.n = n;
-    }
+//    public RadixSort(int[] a, int n){
+//        this.a = a;
+//        this.n = n;
+//    }
 
     // A utility function to get maximum value in arr[]
     static int getMax(int arr[], int n)
@@ -66,7 +70,25 @@ public class RadixSort {
         for (int exp = 1; m/exp > 0; exp *= 10)
             countSort(arr, n, exp);
     }
+
+    @Override
+    public void onDataRecieved(Object data) {
+        super.onDataRecieved(data);
+        
+        this.a = (int[]) data;
+        this.n = (int) data; // Getting the right data structure from the data
+    }
+
+    @Override
+    public void onMessageReceived(String message) {
+        super.onMessageReceived(message);
+        if (message.equals(VisualizerController.COMMAND_START_ALGORITHM)) {
+            startExecution();
+            radixsort(a, n);
+        }
+    }
 }
+
 
 
 
