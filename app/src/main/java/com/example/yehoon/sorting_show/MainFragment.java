@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +37,11 @@ public class MainFragment extends Fragment{
 
     String startCommand = VisualizerController.COMMAND_START_ALGORITHM;
 
-    public static MainFragment newInstance(String algorithm) {
+    public static MainFragment newInstance(String algorithm, DataSet ds) {
         MainFragment fragment = new MainFragment();
         Bundle bundle = new Bundle();
         bundle.putString(VisualizerController.KEY_ALGORITHM, algorithm);
+        bundle.putSerializable(VisualizerController.KEY_ALGORITHM + "l", ds);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -83,7 +85,7 @@ public class MainFragment extends Fragment{
 //        codeFragment = CodeFragment.newInstance(getArguments().getString(VisualizerController.KEY_ALGORITHM));
   //      algoFragment = AlgoDescriptionFragment.newInstance(getArguments().getString(VisualizerController.KEY_ALGORITHM));
 
-        setupFragment(getArguments().getString(VisualizerController.KEY_ALGORITHM));
+        setupFragment(getArguments().getString(VisualizerController.KEY_ALGORITHM), getArguments().getSerializable(VisualizerController.KEY_ALGORITHM + "l"));
 
         return rootView;
     }
@@ -92,7 +94,7 @@ public class MainFragment extends Fragment{
         this.startCommand = startCommand;
     }
 
-    public void setupFragment(String algorithmKey) {
+    public void setupFragment(String algorithmKey, Serializable ds) {
 
 //        viewPager.setOffscreenPageLimit(3);
 //        bottomBar.selectTabAtPosition(0, false);
@@ -125,8 +127,8 @@ public class MainFragment extends Fragment{
                 appBarLayout.addView(visualizer);
                 algorithm = new InsertionSort();
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
-                final int[] intArray = {3,7,4,8,9,5,9,1,500,2};
-                ((InsertionSort) algorithm).setData(intArray);
+                final DataSet dss = (DataSet) ds;
+                ((InsertionSort) algorithm).setData(dss);
                 break;
             default:
                 visualizer = null;

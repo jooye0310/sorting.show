@@ -173,18 +173,7 @@ public class VisualizerController extends HandlerThread implements DataHandler {
         INTERVAL = interval;
     }
 
-    public void setData(final int[] array) {
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                visualizer.setData(array);
-            }
-        });
-        start();
-        prepareHandler(this);
-        sendData(array);
-    }
-    public void setData(final Radix r) {
+    public void setData(final DataSet r) {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

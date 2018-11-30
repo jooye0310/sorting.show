@@ -82,12 +82,9 @@ public class SortingVisualizer extends AlgorithmVisualizer {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    public void setData(int[] integers) {
-        this.array = integers;
-        invalidate();
-    }
-    public void setData(Radix r) {
-        this.array = r.arr;
+    public void setData(DataSet ds) {
+        this.array = ds.arr;
+        this.n = ds.n;
         invalidate();
     }
     public void highlightSwap(int one, int two) {

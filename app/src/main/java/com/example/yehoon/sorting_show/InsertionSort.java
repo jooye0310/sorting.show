@@ -30,7 +30,8 @@ public class InsertionSort extends VisualizerController{
     @Override
     public void onDataRecieved(Object data) {
         super.onDataRecieved(data);
-        this.arr = (int[]) data;
+        this.arr = ((DataSet) data).arr;
+
     }
 
     @Override

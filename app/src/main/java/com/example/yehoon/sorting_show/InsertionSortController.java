@@ -18,7 +18,10 @@ public class InsertionSortController extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insertionsortdemo);
-        final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.INSERTION_SORT);
+
+        final int[] intArray = {3,7,4,8,9,5,9,1,3,2};
+        DataSet ds = new DataSet(intArray, 0);
+        final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.INSERTION_SORT, ds);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
 
 
@@ -27,7 +30,6 @@ public class InsertionSortController extends AppCompatActivity {
 
         // Initialize variables (a, c) for TimSort
         final Integer[] array = new Integer[] {3,7,4,8,9,5,9,1,3,2};
-        final int[] intArray = {3,7,4,8,9,5,9,1,3,2};
 
         String unsorted = intArrayToString(intArray);
         unsorted_list.setText(unsorted);
