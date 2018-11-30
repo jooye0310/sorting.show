@@ -25,7 +25,7 @@ public class RadixSortController extends AppCompatActivity {
 
         // Initialize variables for RadixSort;
 //        final Integer[] array = new Integer[] {7, 8, 6, 10, 5, 4, 3, 2, 1, 9};
-        final int[] array1 ={7,8,6,10,5,4,3,2,1,9};
+        final int[] array1 ={702,2,3,50,5,52,3,57,1,108};
 
         String unsorted = intArrayToString(array1);
         unsorted_list.setText(unsorted);
@@ -44,7 +44,7 @@ public class RadixSortController extends AppCompatActivity {
 
     private int[] doRadixSort(int[] a){
         int length = a.length;
-        RadixSort radixSort = new RadixSort(a, length);
+        RadixSort radixSort = new RadixSort();
         radixSort.radixsort(a, length);
         return a;
     }
