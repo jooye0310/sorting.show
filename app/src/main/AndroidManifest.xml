@@ -8,20 +8,28 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme"
+        android:screenOrientation="landscape">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TimSortController"></activity>
-        <activity android:name=".DualPivotQuickSortController"></activity>
-        <activity android:name=".RadixSortController"></activity>
-        <activity android:name=".InsertionSortController"></activity>
-        <activity android:name=".MergeSortController"></activity>
-        <activity android:name=".QuickSortController"></activity>
+        <activity android:name=".TimSortController"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name=".DualPivotQuickSortController"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name=".RadixSortController"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name=".InsertionSortController"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name=".MergeSortController"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name=".QuickSortController"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>
