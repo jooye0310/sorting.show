@@ -130,6 +130,14 @@ public class MainFragment extends Fragment{
                 final DataSet dss = (DataSet) ds;
                 ((InsertionSort) algorithm).setData(dss);
                 break;
+            case VisualizerController.TIM_SORT:
+                visualizer = new SortingVisualizer(getActivity());
+                appBarLayout.addView(visualizer);
+                algorithm = new TimSort();
+                algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
+                DataSet dss2 = (DataSet) ds;
+                ((TimSort) algorithm).setData(dss2);
+                break;
             default:
                 visualizer = null;
         }
