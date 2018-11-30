@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment{
 
     FloatingActionButton fab;
 //    BottomBar bottomBar;
@@ -47,8 +47,8 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         appBarLayout = (AppBarLayout) rootView.findViewById(R.id.app_bar);
 //        bottomBar = BottomBar.attachShy((CoordinatorLayout) rootView.findViewById(R.id.coordinator), savedInstanceState);
 //        bottomBar.noNavBarGoodness();
@@ -80,7 +80,7 @@ public class MainFragment extends Fragment {
 //        });
 
         logFragment = LogFragment.newInstance();
-        codeFragment = CodeFragment.newInstance(getArguments().getString(VisualizerController.KEY_ALGORITHM));
+//        codeFragment = CodeFragment.newInstance(getArguments().getString(VisualizerController.KEY_ALGORITHM));
   //      algoFragment = AlgoDescriptionFragment.newInstance(getArguments().getString(VisualizerController.KEY_ALGORITHM));
 
         setupFragment(getArguments().getString(VisualizerController.KEY_ALGORITHM));
@@ -94,7 +94,7 @@ public class MainFragment extends Fragment {
 
     public void setupFragment(String algorithmKey) {
 
-        viewPager.setOffscreenPageLimit(3);
+//        viewPager.setOffscreenPageLimit(3);
 //        bottomBar.selectTabAtPosition(0, false);
         setupViewPager(viewPager);
 
@@ -111,10 +111,10 @@ public class MainFragment extends Fragment {
 //        appBarLayout.addView(toolbar);
 
   //      ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) toolbar);
-        ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        assert ab != null;
-        ab.setTitle("");
-        ab.setDisplayHomeAsUpEnabled(true);
+//        ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+//        assert ab != null;
+//        ab.setTitle("");
+//        ab.setDisplayHomeAsUpEnabled(true);
 //        ab.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
         fab.setVisibility(View.VISIBLE);
 
@@ -125,10 +125,8 @@ public class MainFragment extends Fragment {
                 appBarLayout.addView(visualizer);
                 algorithm = new InsertionSort();
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
-  //              ((InsertionSort) algorithm).setData(DataUtils.createRandomArray(15));
-                break;
-            case VisualizerController.N_QUEENS:
-                visualizer = null;
+                final int[] intArray = {3,7,4,8,9,5,9,1,3,2};
+                ((InsertionSort) algorithm).setData(intArray);
                 break;
             default:
                 visualizer = null;
@@ -177,10 +175,11 @@ public class MainFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getChildFragmentManager());
-  //      adapter.addFragment(algoFragment, "Algo");
+ //       adapter.addFragment(algoFragment, "Algo");
         adapter.addFragment(logFragment, "Log");
-        adapter.addFragment(codeFragment, "Code");
+//        adapter.addFragment(codeFragment, "Code");
         viewPager.setAdapter(adapter);
+/*
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -197,11 +196,11 @@ public class MainFragment extends Fragment {
 
             }
         });
-    }
+  */  }
 
     static class Adapter extends FragmentPagerAdapter {
         private final List<android.support.v4.app.Fragment> mFragments = new ArrayList<>();
-        private final List<String> mFragmentTitles = new ArrayList<>();
+//        private final List<String> mFragmentTitles = new ArrayList<>();
 
         private Adapter(FragmentManager fm) {
             super(fm);
@@ -209,7 +208,7 @@ public class MainFragment extends Fragment {
 
         private void addFragment(android.support.v4.app.Fragment fragment, String title) {
             mFragments.add(fragment);
-            mFragmentTitles.add(title);
+  //          mFragmentTitles.add(title);
         }
 
         @Override
@@ -221,22 +220,12 @@ public class MainFragment extends Fragment {
         public int getCount() {
             return mFragments.size();
         }
-
+/*
         @Override
         public CharSequence getPageTitle(int position) {
-            return mFragmentTitles.get(position);
-        }
+    //        return mFragmentTitles.get(position);
+        }*/
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-//        bottomBar.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
 
 }

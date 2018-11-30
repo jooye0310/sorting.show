@@ -12,33 +12,25 @@ import java.util.Comparator;
 
 public class InsertionSortController extends AppCompatActivity {
 
-    TextView unsorted_list, sorted_list;
-    Button btn_timSort, btn_goBack;
+    TextView unsorted_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insertionsortdemo);
+        final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.INSERTION_SORT);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
+
 
         initTextViews();
-        initButtons();
+//        initButtons();
 
         // Initialize variables (a, c) for TimSort
-        final Integer[] array = new Integer[] {7, 8, 6, 10, 5, 4, 3, 2, 1, 9};
-        final int[] intArray = {3,7,4,8,9,5,10,1,3,2};
+        final Integer[] array = new Integer[] {3,7,4,8,9,5,9,1,3,2};
+        final int[] intArray = {3,7,4,8,9,5,9,1,3,2};
 
         String unsorted = intArrayToString(intArray);
         unsorted_list.setText(unsorted);
-
-        btn_timSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Use TimSort to sort the integer array
-                doInsertionSort(intArray);
-                String sorted = intArrayToString(intArray);
-                sorted_list.setText(sorted);
-            }
-        });
     }
 
     // Sort the array using TimSort
@@ -62,15 +54,15 @@ public class InsertionSortController extends AppCompatActivity {
 
     private void initTextViews() {
         unsorted_list = (TextView) findViewById(R.id.unsorted_list);
-        sorted_list = (TextView) findViewById(R.id.sorted_list);
+        //sorted_list = (TextView) findViewById(R.id.sorted_list);
         unsorted_list.setText("");
-        sorted_list.setText("");
+        //sorted_list.setText("");
     }
 
     private void initButtons() {
-        btn_timSort = (Button) findViewById(R.id.btn_doSort);
-        btn_goBack = (Button) findViewById(R.id.btn_goBack);
-        btn_goBack.setOnClickListener(new ButtonListener());
+//        btn_timSort = (Button) findViewById(R.id.btn_doSort);
+        //btn_goBack = (Button) findViewById(R.id.btn_goBack);
+        //btn_goBack.setOnClickListener(new ButtonListener());
     }
 
     // Click listener for buttons
