@@ -18,7 +18,7 @@ public class InsertionSortController extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insertionsortdemo);
-        int[] input = new int[32];
+        int[] input = new int[64];
         for (int i = 0; i < input.length;i++){
             input[i] = (int)(Math.random() * 15 + 1);
         }

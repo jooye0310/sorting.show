@@ -18,7 +18,7 @@ public class SortingVisualizer extends AlgorithmVisualizer {
 
     int highlightPositionOne = -1, highlightPositionTwo = -1;
     int highlightPosition = -1;
-    int lineStrokeWidth = getDimensionInPixel(10);
+    int lineStrokeWidth = getDimensionInPixel(1);
 
     public SortingVisualizer(Context context) {
         super(context);
@@ -44,7 +44,7 @@ public class SortingVisualizer extends AlgorithmVisualizer {
 
         textPaint = new TextPaint();
         textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(getDimensionInPixelFromSP(15));
+        textPaint.setTextSize(getDimensionInPixelFromSP(10));
     }
 
     @Override
