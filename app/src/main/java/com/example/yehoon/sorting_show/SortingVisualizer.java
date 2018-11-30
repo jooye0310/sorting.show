@@ -15,10 +15,11 @@ public class SortingVisualizer extends AlgorithmVisualizer {
     Paint textPaint;
     int[] array;
     int n;
+    double zoom = 700;
 
     int highlightPositionOne = -1, highlightPositionTwo = -1;
     int highlightPosition = -1;
-    int lineStrokeWidth = getDimensionInPixel(1);
+    int lineStrokeWidth = getDimensionInPixel(2);
 
     public SortingVisualizer(Context context) {
         super(context);
@@ -44,7 +45,14 @@ public class SortingVisualizer extends AlgorithmVisualizer {
 
         textPaint = new TextPaint();
         textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(getDimensionInPixelFromSP(10));
+        textPaint.setTextSize(getDimensionInPixelFromSP(5));
+    }
+
+    public void setFontSize(int x){
+        textPaint.setTextSize(getDimensionInPixelFromSP(x));
+    }
+    public void setZoom(double x){
+        zoom = x;
     }
 
     @Override
@@ -53,20 +61,20 @@ public class SortingVisualizer extends AlgorithmVisualizer {
         if (array != null) {
             int numberOfLines = array.length;
 
-            float margin = (getWidth() - (30 * numberOfLines)) / (numberOfLines + 1);
+            float margin = (getWidth() - (20 * numberOfLines)) / (numberOfLines + 1);
 
             float xPos = margin + getDimensionInPixel(10);
             for (int i = 0; i < array.length; i++) {
 
                 if (i == highlightPositionOne || i == highlightPositionTwo) {
-                    canvas.drawLine(xPos, getHeight() - (float) ((array[i] / 700.0) * getHeight()), xPos, getHeight(), highlightPaintSwap);
+                    canvas.drawLine(xPos, getHeight() - (float) ((array[i] / zoom) * getHeight()), xPos, getHeight(), highlightPaintSwap);
                 } else if (i == highlightPosition)
-                    canvas.drawLine(xPos, getHeight() - (float) ((array[i] / 700.0) * getHeight()), xPos, getHeight(), highlightPaintTrace);
+                    canvas.drawLine(xPos, getHeight() - (float) ((array[i] / zoom) * getHeight()), xPos, getHeight(), highlightPaintTrace);
                 else {
-                    canvas.drawLine(xPos, getHeight() - (float) ((array[i] / 700.0) * getHeight()), xPos, getHeight(), paint);
+                    canvas.drawLine(xPos, getHeight() - (float) ((array[i] / zoom) * getHeight()), xPos, getHeight(), paint);
                 }
 
-                canvas.drawText(String.valueOf(array[i]), xPos - lineStrokeWidth / 3, getHeight() - (float) ((array[i] / 700.0) * getHeight()) - 30, textPaint);
+                canvas.drawText(String.valueOf(array[i]), xPos - lineStrokeWidth / 3, getHeight() - (float) ((array[i] / zoom) * getHeight()) - 30, textPaint);
 
                 xPos += margin + 30;
             }
