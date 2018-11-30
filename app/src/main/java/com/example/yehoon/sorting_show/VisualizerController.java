@@ -21,7 +21,7 @@ public class VisualizerController extends HandlerThread implements DataHandler {
     public LogFragment logFragment;
     public Activity activity;
     public SortingVisualizer visualizer;
-//    public AlgoCompletionListener completionListener;
+    public AlgoCompletionListener completionListener;
 
     private boolean started;
 
@@ -160,14 +160,14 @@ public class VisualizerController extends HandlerThread implements DataHandler {
 
     public void completed() {
         started = false;
- /*       if (completionListener != null) {
+        if (completionListener != null) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     completionListener.onAlgoCompleted();
                 }
             });
-        }*/
+        }
     }
 
     public static void setInterval(int interval) {
