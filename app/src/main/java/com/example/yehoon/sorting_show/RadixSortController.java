@@ -19,7 +19,7 @@ public class RadixSortController extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_radixsortdemo);
-        final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.RADIX_SORT);
+        final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.RADIX_SORT, null);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
 
         initTextViews();

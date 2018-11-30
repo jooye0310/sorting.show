@@ -30,7 +30,7 @@ public class VisualizerController extends HandlerThread implements DataHandler {
 
     private Handler workerHandler;
 
-    private static int INTERVAL = 500;
+    private static int INTERVAL = 1000;
 
     public VisualizerController() {
         super("");
@@ -130,11 +130,11 @@ public class VisualizerController extends HandlerThread implements DataHandler {
         }
         addLog(message + "[ "+arrayString +" ] total items - "+ array.length);
     }
-/*
+
     public void setCompletionListener(AlgoCompletionListener completionListener) {
         this.completionListener = completionListener;
     }
-*/
+
     public void prepareHandler(final DataHandler dataHandler) {
         workerHandler = new Handler(getLooper(), new Handler.Callback() {
             @Override

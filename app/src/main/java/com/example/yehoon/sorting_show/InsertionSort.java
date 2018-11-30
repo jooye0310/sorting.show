@@ -10,18 +10,20 @@ public class InsertionSort extends VisualizerController{
 
     void sort()
     {
+        logArray("Original array - " ,arr);
+
         int n = arr.length;
         for (int j = 1; j < n; j++) {
             int key = arr[j];
             int i = j-1;
             while ( (i > -1) && ( arr [i] > key ) ) {
+                addLog("Swapping " + arr[i] + " and " + arr[i + 1]);
                 arr [i+1] = arr [i];
                 highlightSwap(i, i + 1);
-                addLog("Swapping " + arr[i] + " and " + arr[i + 1]);
                 i--;
             }
-            sleep();
             arr[i+1] = key;
+            sleep();
         }
         addLog("Array has been sorted");
         completed();
