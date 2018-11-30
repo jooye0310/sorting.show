@@ -1,4 +1,4 @@
-<resources>
+ <resources>
     <string name="app_name">Sorting_Show</string>
 
     <string name="tv_modified">Modified Sorting Algorithms</string>
@@ -13,10 +13,10 @@
     <string name="btn_doSort">Do Sort</string>
     <string name="btn_goBack">Go Back</string>
 
-    <string name="act_timSort">Tim Sort</string>
-    <string name="act_dualPivotQuickSort">Dual Pivot Quick Sort</string>
-    <string name="act_radixSort">Radix Sort</string>
-    <string name="act_insertionSort">Insertion Sort</string>
-    <string name="act_mergeSort">Merge Sort</string>
-    <string name="act_quickSort">Quick Sort</string>
+    <string name="act_timSort">  Tim Sort</string>
+    <string name="act_dualPivotQuickSort">  Dual Pivot Quick Sort</string>
+    <string name="act_radixSort">  Radix Sort</string>
+    <string name="act_insertionSort">  Insertion Sort</string>
+    <string name="act_mergeSort">  Merge Sort</string>
+    <string name="act_quickSort">  Quick Sort</string>
 </resources>

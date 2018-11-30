@@ -14,6 +14,7 @@ public class SortingVisualizer extends AlgorithmVisualizer {
     Paint highlightPaintTrace;
     Paint textPaint;
     int[] array;
+    int n;
 
     int highlightPositionOne = -1, highlightPositionTwo = -1;
     int highlightPosition = -1;
@@ -85,7 +86,10 @@ public class SortingVisualizer extends AlgorithmVisualizer {
         this.array = integers;
         invalidate();
     }
-
+    public void setData(Radix r) {
+        this.array = r.arr;
+        invalidate();
+    }
     public void highlightSwap(int one, int two) {
         this.highlightPositionOne = one;
         this.highlightPositionTwo = two;

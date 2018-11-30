@@ -172,6 +172,7 @@ public class VisualizerController extends HandlerThread implements DataHandler {
     public static void setInterval(int interval) {
         INTERVAL = interval;
     }
+
     public void setData(final int[] array) {
         activity.runOnUiThread(new Runnable() {
             @Override
@@ -182,6 +183,17 @@ public class VisualizerController extends HandlerThread implements DataHandler {
         start();
         prepareHandler(this);
         sendData(array);
+    }
+    public void setData(final Radix r) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visualizer.setData(r);
+            }
+        });
+        start();
+        prepareHandler(this);
+        sendData(r);
     }
 
     public void highlightSwap(final int one, final int two) {
