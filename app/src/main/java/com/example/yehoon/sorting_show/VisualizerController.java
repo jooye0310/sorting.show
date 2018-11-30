@@ -7,7 +7,7 @@ import android.os.Message;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class VisualizerController extends HandlerThread {
+public class VisualizerController extends HandlerThread implements DataHandler {
 
     public static final String KEY_ALGORITHM = "key_algorithm";
     public static final String COMMAND_START_ALGORITHM = "start";
@@ -30,6 +30,7 @@ public class VisualizerController extends HandlerThread {
 
     public LogFragment logFragment;
     public Activity activity;
+    public SortingVisualizer visualizer;
 //    public AlgoCompletionListener completionListener;
 
     private boolean started;
@@ -181,6 +182,51 @@ public class VisualizerController extends HandlerThread {
 
     public static void setInterval(int interval) {
         INTERVAL = interval;
+    }
+    public void setData(final int[] array) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visualizer.setData(array);
+            }
+        });
+        start();
+        prepareHandler(this);
+        sendData(array);
+    }
+
+    public void highlightSwap(final int one, final int two) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visualizer.highlightSwap(one, two);
+            }
+        });
+    }
+
+    public void highlightTrace(final int position) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visualizer.highlightTrace(position);
+            }
+        });
+    }
+
+    @Override
+    public void onDataRecieved(Object data) {
+
+    }
+
+    @Override
+    public void onMessageReceived(String message) {
+
+    }
+
+    public void setSort(SortingVisualizer visualizer, Activity activity, LogFragment logFragment){
+        this.visualizer = visualizer;
+        this.activity = activity;
+        this.logFragment = logFragment;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.yehoon.sorting_show;
 
-public class InsertionSort {
+public class InsertionSort extends VisualizerController{
     /*Function to sort array using insertion sort*/
     void InsertionSort(int arr[])
     {

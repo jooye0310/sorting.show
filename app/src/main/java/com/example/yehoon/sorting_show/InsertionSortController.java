@@ -45,7 +45,6 @@ public class InsertionSortController extends AppCompatActivity {
     private int[] doInsertionSort(int[] a) {
         InsertionSort basicsort = new InsertionSort();
         basicsort.InsertionSort(a);
-//        timSort.sort(a, c);
         return a;
     }
 
