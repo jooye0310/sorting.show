@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -188,6 +189,7 @@ public class MainFragment extends Fragment{
                 .getString("preference_interval", "500")));
         algorithm.setStarted(false);
         fab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+        fab2.setImageResource(R.mipmap.ic_code);
         logFragment.clearLog();
 
 //        algorithm.setCompletionListener(new AlgoCompletionListener() {
@@ -211,9 +213,11 @@ public class MainFragment extends Fragment{
                 } else {
                     if (algorithm.isPaused()) {
                         algorithm.setPaused(false);
+                        fab2.setVisibility(View.GONE);
                         fab.setImageResource(R.drawable.ic_pause_white_24dp);
                     } else {
                         algorithm.setPaused(true);
+                        fab2.setVisibility(View.VISIBLE);
                         fab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
                     }
                 }
