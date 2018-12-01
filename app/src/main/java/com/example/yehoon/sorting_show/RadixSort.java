@@ -20,10 +20,8 @@ public class RadixSort extends VisualizerController{
         for (int i = 1; i < n; i++)
             if (arr[i] > mx){
                 mx = arr[i];
-                addLog("Finding maximum value -"+ "current max: "+ mx);
-                sleep();
         }
-        addLog("Maximum value : "+mx);
+        addLog("Finding maximum number - Maximum value : "+mx);
         sleep();
         return mx;
     }
@@ -59,7 +57,11 @@ public class RadixSort extends VisualizerController{
         // Copy the output array to arr[], so that arr[] now
         // contains sorted numbers according to curent digit
         for (i = 0; i < n; i++){
+            highlightTrace(arr[i]);
+            highlightTrace(output[i]);
             arr[i] = output[i];
+            highlightSwap(arr[i], output[i]);
+            sleep();
 
         }
 

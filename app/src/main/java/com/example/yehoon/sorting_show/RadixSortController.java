@@ -20,7 +20,7 @@ public class RadixSortController extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_radixsortdemo);
 
-        int[] input = new int[20];
+        int[] input = new int[10];
 
         initTextViews();
 
