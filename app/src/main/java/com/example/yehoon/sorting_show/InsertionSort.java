@@ -19,6 +19,7 @@ public class InsertionSort extends VisualizerController{
             while ( (i > -1) && ( arr [i] > key ) ) {
                 addLog(key + " is smaller than " + arr[i] + ", so continue ");
                 arr [i+1] = arr [i];
+                arr[i] = key;
                 highlightSwap(i, i);
                 i--;
                 sleep();

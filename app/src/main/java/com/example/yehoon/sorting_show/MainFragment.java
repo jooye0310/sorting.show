@@ -128,9 +128,9 @@ public class MainFragment extends Fragment{
                 algorithm = new InsertionSort();
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
                 setFontSize(7);
-                setZoom(200);
+                setZoom(50);
                 algorithm.setINTERVAL(200);
-                algorithm.setBarWidth(1);
+                algorithm.setBarWidth(3);
 
                 final DataSet dss = (DataSet) ds;
                 ((InsertionSort) algorithm).setData(dss);

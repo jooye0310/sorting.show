@@ -18,6 +18,9 @@ public class LogFragment extends Fragment {
     LogAdapter adapter;
     RecyclerView recyclerView;
     View emptyView;
+    public List<String> fullLogList = new ArrayList<>();
+
+
 
     public static LogFragment newInstance() {
         LogFragment fragment = new LogFragment();
@@ -42,6 +45,7 @@ public class LogFragment extends Fragment {
 
     public void addLog(final String log) {
         emptyView.setVisibility(View.GONE);
+        fullLogList.add(log);
         adapter.addLog(log);
     }
 
@@ -87,6 +91,7 @@ public class LogFragment extends Fragment {
         }
 
         public void addLog(String log) {
+            if(logList.size() > 2) clearLog();
             logList.add(log);
             notifyDataSetChanged();
             recyclerView.scrollToPosition(logList.size() - 1);
@@ -96,6 +101,7 @@ public class LogFragment extends Fragment {
             logList.clear();
             notifyDataSetChanged();
         }
+
 
     }
 
