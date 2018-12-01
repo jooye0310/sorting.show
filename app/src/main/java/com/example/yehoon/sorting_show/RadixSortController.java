@@ -20,7 +20,7 @@ public class RadixSortController extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_radixsortdemo);
 
-        int[] input = new int[10];
+        int[] input = new int[20];
 
         initTextViews();
 
@@ -39,14 +39,14 @@ public class RadixSortController extends AppCompatActivity {
         final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.RADIX_SORT, ds);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
     }
-
-
-    private int[] doRadixSort(int[] a){
-        int length = a.length;
-        RadixSort radixSort = new RadixSort();
-        radixSort.radixsort(a, length);
-        return a;
-    }
+//
+//
+//    private int[] doRadixSort(int[] a){
+//        int length = a.length;
+//        RadixSort radixSort = new RadixSort();
+//        radixSort.radixsort(a, length);
+//        return a;
+//    }
 
 
 

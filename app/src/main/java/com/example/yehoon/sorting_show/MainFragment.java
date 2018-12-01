@@ -166,8 +166,10 @@ public class MainFragment extends Fragment{
                 algorithm = new RadixSort();
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
                 ((RadixSort) algorithm).setData((DataSet) ds);
-                setFontSize(5);
-                setZoom(700);
+                algorithm.setINTERVAL(1000);
+                algorithm.setBarWidth(3);
+                setFontSize(10);
+                setZoom(350);
                 break;
             case VisualizerController.DUALPIVOTQUICKSORT:
                 visualizer = new SortingVisualizer(getActivity());
