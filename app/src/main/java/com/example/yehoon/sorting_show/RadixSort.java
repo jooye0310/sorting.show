@@ -10,12 +10,7 @@ public class RadixSort extends VisualizerController{
 
     private int[] a;
     private int n;  //length of array;
-
-//    public RadixSort(int[] a, int n){
-//        this.a = a;
-//        this.n = n;
-//    }
-
+    
     // A utility function to get maximum value in arr[]
     static int getMax(int arr[], int n)
     {
