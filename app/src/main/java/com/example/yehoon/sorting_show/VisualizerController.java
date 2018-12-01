@@ -11,7 +11,7 @@ public class VisualizerController extends HandlerThread implements DataHandler {
 
     public static final String KEY_ALGORITHM = "key_algorithm";
     public static final String COMMAND_START_ALGORITHM = "start";
-    public static final String BUBBLE_SORT = "bubble_sort";
+    public static final String MERGE_SORT = "merge_sort";
     public static final String INSERTION_SORT = "insertion_sort";
     public static final String SELECTION_SORT = "selection_sort";
     public static final String QUICKSORT = "quicksort";

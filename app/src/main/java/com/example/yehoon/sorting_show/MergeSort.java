@@ -1,10 +1,17 @@
 package com.example.yehoon.sorting_show;
 
-public class MergeSort
+public class MergeSort extends VisualizerController
 {
     // Merges two subarrays of arr[].
     // First subarray is arr[l..m]
     // Second subarray is arr[m+1..r]
+
+    @Override
+    public void run() {
+        super.run();
+    }
+    int arr[];
+
     private void merge(Integer arr[], int l, int m, int r)
     {
         // Find sizes of two subarrays to be merged
@@ -79,6 +86,24 @@ public class MergeSort
         }
     }
 
+    @Override
+    public void onDataRecieved(Object data) {
+        super.onDataRecieved(data);
+        this.arr = ((DataSet) data).arr;
+
+    }
+
+    @Override
+    public void onMessageReceived(String message) {
+        super.onMessageReceived(message);
+        if (message.equals(VisualizerController.COMMAND_START_ALGORITHM)) {
+            startExecution();
+            logArray("Original array - " ,arr);
+//            sortRecur(arr, 0, arr.length-1);
+            addLog("Array has been sorted");
+            completed();
+        }
+    }
 
 }
 /* This code is contributed by Rajat Mishra */
