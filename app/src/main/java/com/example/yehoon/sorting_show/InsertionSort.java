@@ -17,10 +17,11 @@ public class InsertionSort extends VisualizerController{
             int key = arr[j];
             int i = j-1;
             while ( (i > -1) && ( arr [i] > key ) ) {
-                addLog("Swapping " + arr[i] + " and " + arr[i + 1]);
+                addLog(key + " is smaller than " + arr[i] + ", so continue ");
                 arr [i+1] = arr [i];
-                highlightSwap(i, i + 1);
+                highlightSwap(i, i);
                 i--;
+                sleep();
             }
             arr[i+1] = key;
             sleep();

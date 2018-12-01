@@ -25,6 +25,8 @@ public class InsertionSortController extends AppCompatActivity {
         final int[] intArray = input;
         DataSet ds = new DataSet(intArray, 0);
         final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.INSERTION_SORT, ds);
+
+
         getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
 //        algoFragment.setupFragment(VisualizerController.INSERTION_SORT, ds);
 

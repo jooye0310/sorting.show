@@ -127,6 +127,11 @@ public class MainFragment extends Fragment{
                 appBarLayout.addView(visualizer);
                 algorithm = new InsertionSort();
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
+                setFontSize(7);
+                setZoom(200);
+                algorithm.setINTERVAL(200);
+                algorithm.setBarWidth(1);
+
                 final DataSet dss = (DataSet) ds;
                 ((InsertionSort) algorithm).setData(dss);
                 break;
@@ -137,6 +142,9 @@ public class MainFragment extends Fragment{
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
                 DataSet dss2 = (DataSet) ds;
                 ((TimSort) algorithm).setData(dss2);
+                setFontSize(3);
+                setZoom(200);
+
                 break;
             case VisualizerController.RADIX_SORT:
                 visualizer = new SortingVisualizer(getActivity());
@@ -145,6 +153,8 @@ public class MainFragment extends Fragment{
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
                 DataSet dss3 = (DataSet) ds;
                 ((RadixSort) algorithm).setData(dss3);
+                setFontSize(5);
+                setZoom(700);
                 break;
             default:
                 visualizer = null;
@@ -243,6 +253,14 @@ public class MainFragment extends Fragment{
         public CharSequence getPageTitle(int position) {
     //        return mFragmentTitles.get(position);
         }*/
+    }
+
+
+    private void setFontSize(int x){
+        algorithm.setFontSize(x);
+    }
+    private void setZoom(double x){
+        algorithm.setZoom(x);
     }
 
 

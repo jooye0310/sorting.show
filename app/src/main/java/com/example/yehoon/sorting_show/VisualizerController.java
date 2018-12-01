@@ -221,4 +221,19 @@ public class VisualizerController extends HandlerThread implements DataHandler {
         this.logFragment = logFragment;
     }
 
+    public void setFontSize(int x){
+        visualizer.setFontSize(x);
+    }
+    public void setZoom(double x){
+        visualizer.setZoom(x);
+    }
+
+    public void setBarWidth(int x){
+        visualizer.setBarWidth(x);
+    }
+
+    public void setINTERVAL(int x){
+        INTERVAL = x;
+    }
+
 }

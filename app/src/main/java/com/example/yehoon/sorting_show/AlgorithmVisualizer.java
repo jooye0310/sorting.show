@@ -20,7 +20,7 @@ public abstract class AlgorithmVisualizer extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth() - 20, getDimensionInPixel(200));
+        setMeasuredDimension(getMeasuredWidth() - 50, getDimensionInPixel(200));
     }
 
     public int getDimensionInPixel(int dp) {

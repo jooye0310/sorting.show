@@ -54,6 +54,9 @@ public class SortingVisualizer extends AlgorithmVisualizer {
     public void setZoom(double x){
         zoom = x;
     }
+    public void setBarWidth(int x){
+        lineStrokeWidth = getDimensionInPixel(x);
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
