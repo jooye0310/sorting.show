@@ -1,6 +1,6 @@
 package com.example.yehoon.sorting_show;
 
-public class DualPivotQuickSort {
+public class DualPivotQuickSort extends VisualizerController{
 
     private class Pivots{
         public int lp;

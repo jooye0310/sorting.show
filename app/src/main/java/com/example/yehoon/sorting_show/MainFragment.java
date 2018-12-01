@@ -169,6 +169,19 @@ public class MainFragment extends Fragment{
                 setFontSize(5);
                 setZoom(700);
                 break;
+            case VisualizerController.DUALPIVOTQUICKSORT:
+                visualizer = new SortingVisualizer(getActivity());
+                appBarLayout.addView(visualizer);
+                algorithm = new DualPivotQuickSort();
+                algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
+                setFontSize(10);
+                setZoom(50);
+                algorithm.setINTERVAL(1000);
+                algorithm.setBarWidth(3);
+                algorithm.setMargin(30);
+
+                ((DualPivotQuickSort) algorithm).setData((DataSet) ds);
+                break;
             default:
                 visualizer = null;
         }
