@@ -1,6 +1,8 @@
  <resources>
     <string name="app_name">Sorting_Show</string>
 
+     <string name="full_code">Full Log</string>
+
     <string name="tv_modified">Modified Sorting Algorithms</string>
     <string name="tv_basic">Basic Sorting Algorithms</string>
 

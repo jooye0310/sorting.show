@@ -16,6 +16,7 @@ public class SortingVisualizer extends AlgorithmVisualizer {
     int[] array;
     int n;
     double zoom = 700;
+    int margins = 30;
 
     int highlightPositionOne = -1, highlightPositionTwo = -1;
     int highlightPosition = -1;
@@ -51,6 +52,9 @@ public class SortingVisualizer extends AlgorithmVisualizer {
     public void setFontSize(int x){
         textPaint.setTextSize(getDimensionInPixelFromSP(x));
     }
+    public void setMargin(int x){
+        margins = x;
+    }
     public void setZoom(double x){
         zoom = x;
     }
@@ -64,7 +68,7 @@ public class SortingVisualizer extends AlgorithmVisualizer {
         if (array != null) {
             int numberOfLines = array.length;
 
-            float margin = (getWidth() - (20 * numberOfLines)) / (numberOfLines + 1);
+            float margin = (getWidth() - (margins * numberOfLines)) / (numberOfLines + 1);
 
             float xPos = margin + getDimensionInPixel(10);
             for (int i = 0; i < array.length; i++) {

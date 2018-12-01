@@ -161,14 +161,14 @@ public class VisualizerController extends HandlerThread implements DataHandler {
 
     public void completed() {
         started = false;
-//        if (completionListener != null) {
+        if (completionListener != null) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     completionListener.onAlgoCompleted();
                 }
             });
-//        }
+        }
     }
 
     public static void setInterval(int interval) {
@@ -234,6 +234,9 @@ public class VisualizerController extends HandlerThread implements DataHandler {
 
     public void setINTERVAL(int x){
         INTERVAL = x;
+    }
+    public void setMargin(int x){
+        visualizer.setMargin(x);
     }
 
 }

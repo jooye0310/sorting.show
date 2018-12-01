@@ -8,76 +8,49 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import java.util.Comparator;
 
 public class InsertionSortController extends AppCompatActivity {
 
-    TextView unsorted_list;
+
+    TextView sorted_list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insertionsortdemo);
-        int[] input = new int[64];
+        int[] input = new int[30];
+
+        initTextViews();
+
         for (int i = 0; i < input.length;i++){
             input[i] = (int)(Math.random() * 15 + 1);
         }
-        final int[] intArray = input;
+
+        final int[] intArray = input.clone();
+
+        Arrays.sort(input);
+        String s = Arrays.toString(input);
+        sorted_list.setText(s);
+
         DataSet ds = new DataSet(intArray, 0);
         final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.INSERTION_SORT, ds);
-
-
         getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
-//        algoFragment.setupFragment(VisualizerController.INSERTION_SORT, ds);
 
-//        initTextViews();
-//        initButtons();
-
-        // Initialize variables (a, c) for TimSort
-        final Integer[] array = new Integer[] {3,7,4,8,9,5,9,1,3,2};
-
-  //      String unsorted = intArrayToString(intArray);
-  //      unsorted_list.setText(unsorted);
     }
 
-
-    // Converts an integer array to a string
-    private String intArrayToString(int[] intArray) {
-        String intArrayString = "";
-        for (int i = 0; i < intArray.length; i++) {
-            if (i < intArray.length - 1)
-                intArrayString += intArray[i] + ", ";
-            else
-                intArrayString += intArray[i];
-        }
-        return intArrayString;
-    }
 
     private void initTextViews() {
-        unsorted_list = (TextView) findViewById(R.id.unsorted_list);
-        //sorted_list = (TextView) findViewById(R.id.sorted_list);
-        unsorted_list.setText("");
-        //sorted_list.setText("");
+        sorted_list = (TextView) findViewById(R.id.sorted_list);
+        sorted_list.setText("");
     }
 
-    private void initButtons() {
-//        btn_timSort = (Button) findViewById(R.id.btn_doSort);
-        //btn_goBack = (Button) findViewById(R.id.btn_goBack);
-        //btn_goBack.setOnClickListener(new ButtonListener());
-    }
 
-    // Click listener for buttons
-    private class ButtonListener implements View.OnClickListener {
 
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_goBack:
-                    Intent mainIntent = getIntent();
-                    Bundle myData = new Bundle();
-                    setResult(Activity.RESULT_OK, mainIntent);
-                    finish();
-            }
-        }
-    }
 }

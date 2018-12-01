@@ -56,54 +56,10 @@ public class LogFragment extends Fragment {
             emptyView.setVisibility(View.VISIBLE);
     }
 
-    private class LogAdapter extends RecyclerView.Adapter<LogAdapter.ItemHolder> {
-        public List<String> logList;
-
-        public LogAdapter(List<String> list) {
-            this.logList = list;
-        }
-
-        @Override
-        public ItemHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_log_item, viewGroup, false);
-            return new ItemHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(ItemHolder itemHolder, int i) {
-            itemHolder.logText.setText(logList.get(i));
-        }
-
-        @Override
-        public int getItemCount() {
-            return (null != logList ? logList.size() : 0);
-        }
-
-        public class ItemHolder extends RecyclerView.ViewHolder {
-
-            TextView logText;
-
-            public ItemHolder(View view) {
-                super(view);
-                logText = (TextView) view.findViewById(R.id.text);
-            }
-
-        }
-
-        public void addLog(String log) {
-            if(logList.size() > 2) clearLog();
-            logList.add(log);
-            notifyDataSetChanged();
-            recyclerView.scrollToPosition(logList.size() - 1);
-        }
-
-        public void clearLog() {
-            logList.clear();
-            notifyDataSetChanged();
-        }
-
-
+    public List<String> getFullLogList(){
+        return fullLogList;
     }
+
 
 
 }

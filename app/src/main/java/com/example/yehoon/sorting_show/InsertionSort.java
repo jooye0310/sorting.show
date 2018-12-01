@@ -11,7 +11,8 @@ public class InsertionSort extends VisualizerController{
     void sort()
     {
         logArray("Original array - " ,arr);
-
+        sleep();
+        sleep();
         int n = arr.length;
         for (int j = 1; j < n; j++) {
             int key = arr[j];
@@ -20,10 +21,12 @@ public class InsertionSort extends VisualizerController{
                 addLog(key + " is smaller than " + arr[i] + ", so continue ");
                 arr [i+1] = arr [i];
                 arr[i] = key;
-                highlightSwap(i, i);
+                highlightTrace(i);
                 i--;
                 sleep();
             }
+            addLog("Found the right place for " + key + ", now insert");
+            highlightTrace(i+1);
             arr[i+1] = key;
             sleep();
         }

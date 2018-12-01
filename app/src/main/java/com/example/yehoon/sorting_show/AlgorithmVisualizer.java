@@ -20,7 +20,7 @@ public abstract class AlgorithmVisualizer extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth() - 50, getDimensionInPixel(200));
+        setMeasuredDimension(getMeasuredWidth() , getDimensionInPixel(200));
     }
 
     public int getDimensionInPixel(int dp) {
@@ -29,13 +29,13 @@ public abstract class AlgorithmVisualizer extends View {
         int modifieddp = dp;
         switch (density) {
             case DisplayMetrics.DENSITY_LOW:
-                modifieddp = dp - dp / 5;
+                modifieddp = dp - dp / 2;
                 break;
             case DisplayMetrics.DENSITY_MEDIUM:
-                modifieddp = dp - dp / 6;
+                modifieddp = dp - dp / 3;
                 break;
             case DisplayMetrics.DENSITY_HIGH:
-                modifieddp = dp - dp / 7;
+                modifieddp = dp - dp / 4;
                 break;
             case DisplayMetrics.DENSITY_XHIGH:
             case DisplayMetrics.DENSITY_XXHIGH:

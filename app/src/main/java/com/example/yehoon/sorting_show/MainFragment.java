@@ -1,5 +1,6 @@
 package com.example.yehoon.sorting_show;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import java.util.List;
 public class MainFragment extends Fragment{
 
     FloatingActionButton fab;
+    FloatingActionButton fab2;
 //    BottomBar bottomBar;
     AppBarLayout appBarLayout;
 
@@ -57,6 +59,7 @@ public class MainFragment extends Fragment{
 //        bottomBar.noTabletGoodness();
 
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab2 = (FloatingActionButton) rootView.findViewById(R.id.fab2);
         viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
 
 
@@ -119,6 +122,7 @@ public class MainFragment extends Fragment{
 //        ab.setDisplayHomeAsUpEnabled(true);
 //        ab.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
         fab.setVisibility(View.VISIBLE);
+        fab2.setVisibility(View.GONE);
 
 
         switch (algorithmKey) {
@@ -127,32 +131,40 @@ public class MainFragment extends Fragment{
                 appBarLayout.addView(visualizer);
                 algorithm = new InsertionSort();
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
-                setFontSize(7);
+                setFontSize(10);
                 setZoom(50);
                 algorithm.setINTERVAL(200);
-                algorithm.setBarWidth(3);
+                algorithm.setBarWidth(10);
+                algorithm.setMargin(30);
 
-                final DataSet dss = (DataSet) ds;
-                ((InsertionSort) algorithm).setData(dss);
+                ((InsertionSort) algorithm).setData((DataSet) ds);
+                break;
+            case VisualizerController.QUICKSORT:
+                visualizer = new SortingVisualizer(getActivity());
+                appBarLayout.addView(visualizer);
+                algorithm = new QuickSort();
+                algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
+                setFontSize(7);
+                setZoom(50);
+                algorithm.setINTERVAL(1000);
+                algorithm.setBarWidth(3);
+                ((QuickSort) algorithm).setData((DataSet) ds);
                 break;
             case VisualizerController.TIM_SORT:
                 visualizer = new SortingVisualizer(getActivity());
                 appBarLayout.addView(visualizer);
                 algorithm = new TimSort();
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
-                DataSet dss2 = (DataSet) ds;
-                ((TimSort) algorithm).setData(dss2);
+                ((TimSort) algorithm).setData((DataSet) ds);
                 setFontSize(3);
                 setZoom(200);
-
                 break;
             case VisualizerController.RADIX_SORT:
                 visualizer = new SortingVisualizer(getActivity());
                 appBarLayout.addView(visualizer);
                 algorithm = new RadixSort();
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
-                DataSet dss3 = (DataSet) ds;
-                ((RadixSort) algorithm).setData(dss3);
+                ((RadixSort) algorithm).setData((DataSet) ds);
                 setFontSize(5);
                 setZoom(700);
                 break;
@@ -160,10 +172,22 @@ public class MainFragment extends Fragment{
                 visualizer = null;
         }
 
+        algorithm.setCompletionListener(new AlgoCompletionListener() {
+            @Override
+            public void onAlgoCompleted() {
+                fab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                if (visualizer != null) {
+                    visualizer.onCompleted();
+                    fab2.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
         VisualizerController.setInterval(Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .getString("preference_interval", "500")));
         algorithm.setStarted(false);
-//        fab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+        fab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
         logFragment.clearLog();
 
 //        algorithm.setCompletionListener(new AlgoCompletionListener() {
@@ -181,20 +205,31 @@ public class MainFragment extends Fragment{
             public void onClick(View v) {
                 if (!algorithm.isStarted()) {
                     algorithm.sendMessage(startCommand);
-//                    fab.setImageResource(R.drawable.ic_pause_white_24dp);
+                    fab.setImageResource(R.drawable.ic_pause_white_24dp);
                     logFragment.clearLog();
 //                    bottomBar.selectTabAtPosition(1, true);//move to log fragment
                 } else {
                     if (algorithm.isPaused()) {
                         algorithm.setPaused(false);
-  //                      fab.setImageResource(R.drawable.ic_pause_white_24dp);
+                        fab.setImageResource(R.drawable.ic_pause_white_24dp);
                     } else {
                         algorithm.setPaused(true);
-    //                    fab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                        fab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
                     }
                 }
             }
         });
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getContext(), FullCode.class);
+                Bundle myData = new Bundle();
+                myData.putStringArrayList("code", ((ArrayList<String>)logFragment.getFullLogList()));
+                myIntent.putExtras(myData);
+                startActivity(myIntent);
+            }
+        });
+
 
 //        View shadow = LayoutInflater.from(getActivity()).inflate(R.layout.shadow, appBarLayout, false);
 //        appBarLayout.addView(shadow);

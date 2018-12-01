@@ -30,6 +30,8 @@
             android:screenOrientation="landscape"></activity>
         <activity android:name=".QuickSortController"
             android:screenOrientation="landscape"></activity>
+        <activity android:name=".FullCode"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>
