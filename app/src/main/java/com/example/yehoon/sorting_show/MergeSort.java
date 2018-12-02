@@ -12,7 +12,7 @@ public class MergeSort extends VisualizerController
     }
     int arr[];
 
-    private void merge(Integer arr[], int l, int m, int r)
+    private void merge(int arr[], int l, int m, int r)
     {
         // Find sizes of two subarrays to be merged
         int n1 = m - l + 1;
@@ -38,15 +38,24 @@ public class MergeSort extends VisualizerController
         int k = l;
         while (i < n1 && j < n2)
         {
+            addLog("Merging - comparing ["+ L[i]+"] and ["+R[j]+"]");
+//            highlightSwap(i,j);
+//            sleep();
+            highlightSwap(L[i],R[j]);
+            sleep();
+
             if (L[i] <= R[j])
             {
                 arr[k] = L[i];
+                highlightTrace(L[i]);
+                sleepFor(100);
                 i++;
             }
             else
             {
                 arr[k] = R[j];
                 j++;
+                sleepFor(100);
             }
             k++;
         }
@@ -70,14 +79,17 @@ public class MergeSort extends VisualizerController
 
     // Main function that sorts arr[l..r] using
     // merge()
-    public void sort(Integer arr[], int l, int r)
+    public void sort(int arr[], int l, int r)
     {
         if (l < r)
         {
             // Find the middle point
             int m = (l+r)/2;
+            addLog("");
 
             // Sort first and second halves
+            addLog("Splitting the array into two, (1) from ["+ arr[l]+"] to ["+arr[m]+"] (2) from ["+ arr[m+1]+"] to ["+arr[r]+"]");
+
             sort(arr, l, m);
             sort(arr , m+1, r);
 
@@ -100,6 +112,7 @@ public class MergeSort extends VisualizerController
             startExecution();
             logArray("Original array - " ,arr);
 //            sortRecur(arr, 0, arr.length-1);
+            sort(arr, 0, arr.length-1);
             addLog("Array has been sorted");
             completed();
         }

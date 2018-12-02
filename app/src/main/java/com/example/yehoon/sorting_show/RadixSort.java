@@ -38,15 +38,16 @@ public class RadixSort extends VisualizerController{
         // Store count of occurrences in count[]
         for (i = 0; i < n; i++){
             count[ (arr[i]/exp)%10 ]++;
-            addLog("Count of "+i+ " is now "+count[(arr[i]/exp)%10]);
+            addLog(arr[i]+ " falls into the array "+(arr[i]/exp)%10+", and makes the count "+count[(arr[i]/exp)%10]);
             sleep();
         }
 
         // Change count[i] so that count[i] now contains
         // actual position of this digit in output[]
-        for (i = 1; i < 10; i++)
+        for (i = 1; i < 10; i++) {
             count[i] += count[i - 1];
 
+        }
         // Build the output array
         for (i = n - 1; i >= 0; i--)
         {
@@ -54,15 +55,14 @@ public class RadixSort extends VisualizerController{
             count[ (arr[i]/exp)%10 ]--;
         }
 
+        addLog("Output array built from such process is ["+intArrayToString(output)+"] after sorting the "+exp+"'s digit");
         // Copy the output array to arr[], so that arr[] now
         // contains sorted numbers according to curent digit
+        addLog("Now copying the output array to the original array...");
         for (i = 0; i < n; i++){
-            highlightTrace(arr[i]);
-            highlightTrace(output[i]);
-            arr[i] = output[i];
-            highlightSwap(arr[i], output[i]);
+            highlightPivot(i);
             sleep();
-
+            arr[i] = output[i];
         }
 
     }
@@ -79,11 +79,21 @@ public class RadixSort extends VisualizerController{
         // of passing digit number, exp is passed. exp is 10^i
         // where i is current digit number
         for (int exp = 1; m/exp > 0; exp *= 10){
-            addLog("currently sorting the " +exp+"'s digit");
+            addLog("Currently sorting the " +exp+"'s digit");
             countSort(arr, n, exp);
         }
     }
 
+    private String intArrayToString(int[] intArray) {
+        String intArrayString = "";
+        for (int i = 0; i < intArray.length; i++) {
+            if (i < intArray.length - 1)
+                intArrayString += intArray[i] + ", ";
+            else
+                intArrayString += intArray[i];
+        }
+        return intArrayString;
+    }
     @Override
     public void onDataRecieved(Object data) {
         super.onDataRecieved(data);

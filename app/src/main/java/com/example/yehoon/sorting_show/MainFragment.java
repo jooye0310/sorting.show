@@ -158,7 +158,7 @@ public class MainFragment extends Fragment{
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
                 setFontSize(7);
                 setZoom(50);
-                algorithm.setINTERVAL(100);
+                algorithm.setINTERVAL(1000);
                 algorithm.setBarWidth(3);
                 ((MergeSort)algorithm).setData((DataSet) ds);
                 break;
