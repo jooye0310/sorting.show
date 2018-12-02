@@ -151,6 +151,17 @@ public class MainFragment extends Fragment{
                 algorithm.setBarWidth(3);
                 ((QuickSort) algorithm).setData((DataSet) ds);
                 break;
+            case VisualizerController.MERGE_SORT:
+                visualizer = new SortingVisualizer(getActivity());
+                appBarLayout.addView(visualizer);
+                algorithm = new MergeSort();
+                algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
+                setFontSize(7);
+                setZoom(50);
+                algorithm.setINTERVAL(100);
+                algorithm.setBarWidth(3);
+                ((MergeSort)algorithm).setData((DataSet) ds);
+                break;
             case VisualizerController.TIM_SORT:
                 visualizer = new SortingVisualizer(getActivity());
                 appBarLayout.addView(visualizer);
