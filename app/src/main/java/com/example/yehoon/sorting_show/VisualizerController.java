@@ -206,6 +206,33 @@ public class VisualizerController extends HandlerThread implements DataHandler {
         });
     }
 
+    public void highlightPivot(final int position) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visualizer.highlightPivot(position);
+            }
+        });
+    }
+
+    public void highlightDestination(final int position) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visualizer.highlightDestination(position);
+            }
+        });
+    }
+
+    public void highlightShift(final int[] positions) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visualizer.highlightShift(positions);
+            }
+        });
+    }
+
     @Override
     public void onDataRecieved(Object data) {
 

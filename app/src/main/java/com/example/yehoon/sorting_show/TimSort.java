@@ -62,7 +62,7 @@ public class TimSort extends VisualizerController {
     /**
      * The array being sorted.
      */
-    int[] a;
+    int[] arr;
 
     /*Function to sort array using insertion sort*/
     @Override
@@ -73,15 +73,19 @@ public class TimSort extends VisualizerController {
     @Override
     public void onDataRecieved(Object data) {
         super.onDataRecieved(data);
-        this.a = ((DataSet) data).arr;
+        this.arr = ((DataSet) data).arr;
     }
 
     @Override
     public void onMessageReceived(String message) {
         super.onMessageReceived(message);
         if (message.equals(VisualizerController.COMMAND_START_ALGORITHM)) {
+            logArray("Original array - " ,arr);
+            //sleepFor(2000);
+            sleep();
             startExecution();
             sortTemp();
+            sort(arr);
         }
     }
 
@@ -151,7 +155,7 @@ public class TimSort extends VisualizerController {
      */
     void sortTemp() {
         // Allocate temp storage (which may be increased later if necessary)
-        int len = a.length;
+        int len = arr.length;
         @SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
         int[] newArray = new int[len < 2 * INITIAL_TMP_STORAGE_LENGTH ?
                 len >>> 1 : INITIAL_TMP_STORAGE_LENGTH];
@@ -180,11 +184,11 @@ public class TimSort extends VisualizerController {
      * of the public method with the same signature in java.util.Arrays.
      */
 
-    void sort(int[] a) {
-        sort(a, 0, a.length);
+    void sort(int[] arr) {
+        sort(arr, 0, arr.length);
     }
 
-    void sort(int[] a, int lo, int hi) {
+    void sort(int[] arr, int lo, int hi) {
         /*
         if (c == null) {
             Arrays.sort(a, lo, hi);
@@ -192,15 +196,15 @@ public class TimSort extends VisualizerController {
         }
         */
 
-        rangeCheck(a.length, lo, hi);
-        int nRemaining  = hi - lo;
+        rangeCheck(arr.length, lo, hi);
+        int nRemaining = hi - lo;
         if (nRemaining < 2)
             return;  // Arrays of size 0 and 1 are always sorted
 
         // If array is small, do a "mini-TimSort" with no merges
         if (nRemaining < MIN_MERGE) {
-            int initRunLen = countRunAndMakeAscending(a, lo, hi);
-            binarySort(a, lo, hi, lo + initRunLen);
+            int initRunLen = countRunAndMakeAscending(arr, lo, hi);
+            binarySort(arr, lo, hi, lo + initRunLen);
             return;
         }
 
@@ -213,12 +217,12 @@ public class TimSort extends VisualizerController {
         int minRun = minRunLength(nRemaining);
         do {
             // Identify next run
-            int runLen = countRunAndMakeAscending(a, lo, hi);
+            int runLen = countRunAndMakeAscending(arr, lo, hi);
 
             // If run is short, extend to min(minRun, nRemaining)
             if (runLen < minRun) {
                 int force = nRemaining <= minRun ? nRemaining : minRun;
-                binarySort(a, lo, lo + force, lo + runLen);
+                binarySort(arr, lo, lo + force, lo + runLen);
                 runLen = force;
             }
 
@@ -235,6 +239,9 @@ public class TimSort extends VisualizerController {
         assert lo == hi;
         ts.mergeForceCollapse();
         assert ts.stackSize == 1;
+
+        /*addLog("Array has been sorted");
+        completed();*/
     }
 
     /**
@@ -248,19 +255,23 @@ public class TimSort extends VisualizerController {
      * elements from index {@code lo}, inclusive, to {@code start},
      * exclusive are already sorted.
      *
-     * @param a the array in which a range is to be sorted
+     * @param arr the array in which a range is to be sorted
      * @param lo the index of the first element in the range to be sorted
      * @param hi the index after the last element in the range to be sorted
      * @param start the index of the first element in the range that is
      *        not already known to be sorted (@code lo <= start <= hi}
      */
     @SuppressWarnings("fallthrough")
-    private void binarySort(int[] a, int lo, int hi, int start) {
+    private void binarySort(int[] arr, int lo, int hi, int start) {
         assert lo <= start && start <= hi;
         if (start == lo)
             start++;
         for ( ; start < hi; start++) {
-            int pivot = a[start];
+            int pivot = arr[start];
+            addLog("Set pivot = " + arr[start]);
+            highlightPivot(start);
+            //sleepFor(2000);
+            sleep();
 
             // Set left (and right) to the index where a[start] (pivot) belongs
             int left = lo;
@@ -272,8 +283,8 @@ public class TimSort extends VisualizerController {
              *   pivot <  all in [right, start).
              */
             while (left < right) {
-                int mid = (left + right) >>> 1;
-                if (pivot < a[mid])
+                int mid = (left + right) >>> 1; // dividing in half but to prevent overflow
+                if (pivot < arr[mid])
                     right = mid;
                 else
                     left = mid + 1;
@@ -289,18 +300,53 @@ public class TimSort extends VisualizerController {
              */
             int n = start - left;  // The number of elements to move
             // Switch is just an optimization for arraycopy in default case
+            addLog("Going to insert pivot: " + pivot + " before " + arr[left] + ".");
+            highlightDestination(left);
+            //sleepFor(2000);
+            sleep();
             switch(n) {
+                /*
                 case 2:
-                    a[left + 2] = a[left + 1];
-                    highlightSwap(left + 2, left + 1);
+                    addLog("Case 2: Shift " + arr[left + 1] + " to the right to make room for pivot: " + pivot);
+                    arr[left + 2] = arr[left + 1];
+                    highlightSwap(left + 1, left + 2);
+                    //highlightTrace(left + 2);
+                    sleepFor(2000);
                 case 1:
-                    a[left + 1] = a[left];
-                    highlightSwap(left + 1, left);
+                    addLog("Case 1: Shift " + arr[left] + " to to the right make room for pivot: " + pivot);
+                    arr[left + 1] = arr[left];
+                    highlightSwap(left, left + 1);
+                    //highlightTrace(left + 1);
+                    sleepFor(2000);
                     break;
-                default: System.arraycopy(a, left, a, left + 1, n);
+                */
+                default:
+                    //System.arraycopy(arr, left, arr, left + 1, n);
+                    int[] tempArray = new int[n];
+                    System.arraycopy(arr, left, tempArray, 0, n);
+
+                    int tempLeft = left;
+                    int[] positions = new int[n];
+                    String positions_str = "";
+                    for(int i = 0; i < n; i++) {
+                        positions[i] = tempLeft;
+                        arr[tempLeft + 1] = tempArray[i];
+                        positions_str = positions_str + Integer.toString(tempArray[i]) + " ";
+                        //highlightSwap(tempLeft, tempLeft + 1);
+                        //highlightTrace(tempLeft + 1);
+                        //sleepFor(2000);
+                        //sleep();
+                        tempLeft++;
+                    }
+                    addLog("Shifting " + positions_str + " to the right to make room for pivot: " + pivot);
+                    highlightShift(positions);
+                    sleep();
             }
-            a[left] = pivot;
-            highlightSwap(start, left);
+            addLog("Insert the pivot: " + pivot + " to the right spot.");
+            arr[left] = pivot; // pivot = arr[start]
+            highlightPivot(left);
+            //sleepFor(2000);
+            sleep();
         }
     }
 
@@ -321,26 +367,26 @@ public class TimSort extends VisualizerController {
      * definition of "descending" is needed so that the call can safely
      * reverse a descending sequence without violating stability.
      *
-     * @param a the array in which a run is to be counted and possibly reversed
+     * @param arr the array in which a run is to be counted and possibly reversed
      * @param lo index of the first element in the run
      * @param hi index after the last element that may be contained in the run.
     It is required that @code{lo < hi}.
      * @return  the length of the run beginning at the specified position in
      *          the specified array
      */
-    private int countRunAndMakeAscending(int[] a, int lo, int hi) {
+    private int countRunAndMakeAscending(int[] arr, int lo, int hi) {
         assert lo < hi;
         int runHi = lo + 1;
         if (runHi == hi)
             return 1;
 
         // Find end of run, and reverse range if descending
-        if (a[runHi++] < a[lo]) { // Descending
-            while(runHi < hi && a[runHi] < a[runHi - 1])
+        if (arr[runHi++] < arr[lo]) { // Descending
+            while(runHi < hi && arr[runHi] < arr[runHi - 1])
                 runHi++;
-            reverseRange(a, lo, runHi);
+            reverseRange(arr, lo, runHi);
         } else {                              // Ascending
-            while (runHi < hi && a[runHi] >= a[runHi - 1])
+            while (runHi < hi && arr[runHi] >= arr[runHi - 1])
                 runHi++;
         }
 
@@ -350,18 +396,22 @@ public class TimSort extends VisualizerController {
     /**
      * Reverse the specified range of the specified array.
      *
-     * @param a the array in which a range is to be reversed
+     * @param arr the array in which a range is to be reversed
      * @param lo the index of the first element in the range to be reversed
      * @param hi the index after the last element in the range to be reversed
      */
-    private void reverseRange(int[] a, int lo, int hi) {
+    private void reverseRange(int[] arr, int lo, int hi) {
         hi--;
         while (lo < hi) {
-            int t = a[lo];
-            a[lo++] = a[hi];
-            highlightSwap(hi, lo);
-            a[hi--] = t;
-            highlightSwap(hi, lo - 1);
+            int swap_lo = lo;
+            int swap_hi = hi;
+            int t = arr[lo];
+            arr[lo++] = arr[hi];
+            arr[hi--] = t;
+            addLog("Swap " + arr[swap_lo] + " and " + arr[swap_hi] + " to change the run as ascending.");
+            highlightSwap(swap_lo, swap_hi);
+            sleep();
+            //sleepFor(2000);
         }
     }
 
@@ -478,7 +528,7 @@ public class TimSort extends VisualizerController {
          * Find where the first element of run2 goes in run1. Prior elements
          * in run1 can be ignored (because they're already in place).
          */
-        int k = gallopRight(a[base2], a, base1, len1, 0);
+        int k = gallopRight(arr[base2], arr, base1, len1, 0);
         assert k >= 0;
         base1 += k;
         len1 -= k;
@@ -489,7 +539,7 @@ public class TimSort extends VisualizerController {
          * Find where the last element of run1 goes in run2. Subsequent elements
          * in run2 can be ignored (because they're already in place).
          */
-        len2 = gallopLeft(a[base1 + len1 - 1], a, base2, len2, len2 - 1);
+        len2 = gallopLeft(arr[base1 + len1 - 1], arr, base2, len2, len2 - 1);
         assert len2 >= 0;
         if (len2 == 0)
             return;
@@ -507,7 +557,7 @@ public class TimSort extends VisualizerController {
      * returns the index of the leftmost equal element.
      *
      * @param key the key whose insertion point to search for
-     * @param a the array in which to search
+     * @param arr the array in which to search
      * @param base the index of the first element in the range
      * @param len the length of the range; must be > 0
      * @param hint the index at which to begin the search, 0 <= hint < n.
@@ -518,14 +568,14 @@ public class TimSort extends VisualizerController {
      *    the first k elements of a should precede key, and the last n - k
      *    should follow it.
      */
-    private static int gallopLeft(int key, int[] a, int base, int len, int hint) {
+    private static int gallopLeft(int key, int[] arr, int base, int len, int hint) {
         assert len > 0 && hint >= 0 && hint < len;
         int lastOfs = 0;
         int ofs = 1;
-        if (key > a[base + hint]) {
+        if (key > arr[base + hint]) {
             // Gallop right until a[base+hint+lastOfs] < key <= a[base+hint+ofs]
             int maxOfs = len - hint;
-            while (ofs < maxOfs && key > a[base + hint + ofs]) {
+            while (ofs < maxOfs && key > arr[base + hint + ofs]) {
                 lastOfs = ofs;
                 ofs = (ofs << 1) + 1;
                 if (ofs <= 0)   // int overflow
@@ -540,7 +590,7 @@ public class TimSort extends VisualizerController {
         } else { // key <= a[base + hint]
             // Gallop left until a[base+hint-ofs] < key <= a[base+hint-lastOfs]
             final int maxOfs = hint + 1;
-            while (ofs < maxOfs && key <= a[base + hint - ofs]) {
+            while (ofs < maxOfs && key <= arr[base + hint - ofs]) {
                 lastOfs = ofs;
                 ofs = (ofs << 1) + 1;
                 if (ofs <= 0)   // int overflow
@@ -565,7 +615,7 @@ public class TimSort extends VisualizerController {
         while (lastOfs < ofs) {
             int m = lastOfs + ((ofs - lastOfs) >>> 1);
 
-            if (key > a[base + m])
+            if (key > arr[base + m])
                 lastOfs = m + 1;  // a[base + m] < key
             else
                 ofs = m;          // key <= a[base + m]
@@ -579,22 +629,22 @@ public class TimSort extends VisualizerController {
      * key, gallopRight returns the index after the rightmost equal element.
      *
      * @param key the key whose insertion point to search for
-     * @param a the array in which to search
+     * @param arr the array in which to search
      * @param base the index of the first element in the range
      * @param len the length of the range; must be > 0
      * @param hint the index at which to begin the search, 0 <= hint < n.
      *     The closer hint is to the result, the faster this method will run.
      * @return the int k,  0 <= k <= n such that a[b + k - 1] <= key < a[b + k]
      */
-    private static int gallopRight(int key, int[] a, int base, int len, int hint) {
+    private static int gallopRight(int key, int[] arr, int base, int len, int hint) {
         assert len > 0 && hint >= 0 && hint < len;
 
         int ofs = 1;
         int lastOfs = 0;
-        if (key < a[base + hint]) {
+        if (key < arr[base + hint]) {
             // Gallop left until a[b+hint - ofs] <= key < a[b+hint - lastOfs]
             int maxOfs = hint + 1;
-            while (ofs < maxOfs && key < a[base + hint - ofs]) {
+            while (ofs < maxOfs && key < arr[base + hint - ofs]) {
                 lastOfs = ofs;
                 ofs = (ofs << 1) + 1;
                 if (ofs <= 0)   // int overflow
@@ -610,7 +660,7 @@ public class TimSort extends VisualizerController {
         } else { // a[b + hint] <= key
             // Gallop right until a[b+hint + lastOfs] <= key < a[b+hint + ofs]
             int maxOfs = len - hint;
-            while (ofs < maxOfs && key >= a[base + hint + ofs]) {
+            while (ofs < maxOfs && key >= arr[base + hint + ofs]) {
                 lastOfs = ofs;
                 ofs = (ofs << 1) + 1;
                 if (ofs <= 0)   // int overflow
@@ -634,7 +684,7 @@ public class TimSort extends VisualizerController {
         while (lastOfs < ofs) {
             int m = lastOfs + ((ofs - lastOfs) >>> 1);
 
-            if (key < a[base + m])
+            if (key < arr[base + m])
                 ofs = m;          // key < a[b + m]
             else
                 lastOfs = m + 1;  // a[b + m] <= key
@@ -663,7 +713,7 @@ public class TimSort extends VisualizerController {
         assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
         // Copy first run into temp array
-        int[] a = this.a; // For performance
+        int[] a = this.arr; // For performance
         int[] tmp = ensureCapacity(len1);
         System.arraycopy(a, base1, tmp, 0, len1);
 
@@ -673,7 +723,7 @@ public class TimSort extends VisualizerController {
 
         // Move first element of second run and deal with degenerate cases
         a[dest++] = a[cursor2++];
-        highlightSwap(dest, cursor2);
+        //highlightSwap(dest, cursor2);
         if (--len2 == 0) {
             System.arraycopy(tmp, cursor1, a, dest, len1);
             return;
@@ -698,7 +748,7 @@ public class TimSort extends VisualizerController {
                 assert len1 > 1 && len2 > 0;
                 if (a[cursor2] < tmp[cursor1]) {
                     a[dest++] = a[cursor2++];
-                    highlightSwap(dest, cursor2);
+                    //highlightSwap(dest, cursor2);
                     count2++;
                     count1 = 0;
                     if (--len2 == 0)
@@ -729,7 +779,7 @@ public class TimSort extends VisualizerController {
                         break outer;
                 }
                 a[dest++] = a[cursor2++];
-                highlightSwap(dest, cursor2);
+                //highlightSwap(dest, cursor2);
                 if (--len2 == 0)
                     break outer;
 
@@ -782,7 +832,7 @@ public class TimSort extends VisualizerController {
         assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
         // Copy second run into temp array
-        int[] a = this.a; // For performance
+        int[] a = this.arr; // For performance
         int[] tmp = ensureCapacity(len2);
         System.arraycopy(a, base2, tmp, 0, len2);
 
@@ -792,7 +842,7 @@ public class TimSort extends VisualizerController {
 
         // Move last element of first run and deal with degenerate cases
         a[dest--] = a[cursor1--];
-        highlightSwap(dest, cursor1);
+        //highlightSwap(dest, cursor1);
         if (--len1 == 0) {
             System.arraycopy(tmp, 0, a, dest - (len2 - 1), len2);
             return;
@@ -819,7 +869,7 @@ public class TimSort extends VisualizerController {
                 assert len1 > 0 && len2 > 1;
                 if (tmp[cursor2] < a[cursor1]) {
                     a[dest--] = a[cursor1--];
-                    highlightSwap(dest, cursor1);
+                    //highlightSwap(dest, cursor1);
                     count1++;
                     count2 = 0;
                     if (--len1 == 0)
@@ -863,7 +913,7 @@ public class TimSort extends VisualizerController {
                         break outer;
                 }
                 a[dest--] = a[cursor1--];
-                highlightSwap(dest, cursor1);
+                //highlightSwap(dest, cursor1);
                 if (--len1 == 0)
                     break outer;
                 minGallop--;
@@ -912,7 +962,7 @@ public class TimSort extends VisualizerController {
             if (newSize < 0) // Not bloody likely!
                 newSize = minCapacity;
             else
-                newSize = Math.min(newSize, a.length >>> 1);
+                newSize = Math.min(newSize, arr.length >>> 1);
 
             @SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
             int[] newArray = new int[newSize];

@@ -157,8 +157,8 @@ public class MainFragment extends Fragment{
                 algorithm = new TimSort();
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
                 ((TimSort) algorithm).setData((DataSet) ds);
-                setFontSize(3);
-                setZoom(200);
+                setFontSize(10);
+                setZoom(50);
                 break;
             case VisualizerController.RADIX_SORT:
                 visualizer = new SortingVisualizer(getActivity());

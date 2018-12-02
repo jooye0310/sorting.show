@@ -4,14 +4,20 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.res.TypedArrayUtils;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+
+import java.util.Arrays;
 
 public class SortingVisualizer extends AlgorithmVisualizer {
 
     Paint paint;
     Paint highlightPaintSwap;
     Paint highlightPaintTrace;
+    Paint highlightPaintPivot; // for pivot in TimSort
+    Paint highlightPaintDestination; // for destination in TimSort
+    Paint highlightPaintShift; // for shifting in TimSort
     Paint textPaint;
     int[] array;
     int n;
@@ -20,6 +26,9 @@ public class SortingVisualizer extends AlgorithmVisualizer {
 
     int highlightPositionOne = -1, highlightPositionTwo = -1;
     int highlightPosition = -1;
+    int highlightPositionPivot = -1; // for pivot in TimSort
+    int highlightPositionDestination = -1; // for destination in TimSort
+    int[] highlightPositionShift = new int[]{-1}; // for shift in TimSort
     int lineStrokeWidth = getDimensionInPixel(2);
 
     public SortingVisualizer(Context context) {
@@ -43,6 +52,18 @@ public class SortingVisualizer extends AlgorithmVisualizer {
 
         highlightPaintTrace = new Paint(paint);
         highlightPaintTrace.setColor(Color.BLUE);
+
+        // for pivot in TimSort
+        highlightPaintPivot= new Paint(paint);
+        highlightPaintPivot.setColor(getResources().getColor(R.color.colorPivot));
+
+        // for destination in TimSort
+        highlightPaintDestination = new Paint(paint);
+        highlightPaintDestination.setColor(Color.GREEN);
+
+        // for shift in TimSort
+        highlightPaintShift = new Paint(paint);
+        highlightPaintShift.setColor(getResources().getColor(R.color.colorShift));
 
         textPaint = new TextPaint();
         textPaint.setColor(Color.BLACK);
@@ -73,10 +94,16 @@ public class SortingVisualizer extends AlgorithmVisualizer {
             float xPos = margin + getDimensionInPixel(10);
             for (int i = 0; i < array.length; i++) {
 
-                if (i == highlightPositionOne || i == highlightPositionTwo) {
+                if (i == highlightPositionOne || i == highlightPositionTwo)
                     canvas.drawLine(xPos, getHeight() - (float) ((array[i] / zoom) * getHeight()), xPos, getHeight(), highlightPaintSwap);
-                } else if (i == highlightPosition)
+                else if (i == highlightPosition)
                     canvas.drawLine(xPos, getHeight() - (float) ((array[i] / zoom) * getHeight()), xPos, getHeight(), highlightPaintTrace);
+                else if (i == highlightPositionPivot)
+                    canvas.drawLine(xPos, getHeight() - (float) ((array[i] / zoom) * getHeight()), xPos, getHeight(), highlightPaintPivot);
+                else if (i == highlightPositionDestination)
+                    canvas.drawLine(xPos, getHeight() - (float) ((array[i] / zoom) * getHeight()), xPos, getHeight(), highlightPaintDestination);
+                else if (contains(highlightPositionShift, i))
+                    canvas.drawLine(xPos, getHeight() - (float) ((array[i] / zoom) * getHeight()), xPos, getHeight(), highlightPaintShift);
                 else {
                     canvas.drawLine(xPos, getHeight() - (float) ((array[i] / zoom) * getHeight()), xPos, getHeight(), paint);
                 }
@@ -113,9 +140,40 @@ public class SortingVisualizer extends AlgorithmVisualizer {
         invalidate();
     }
 
+    // for pivot in TimSort
+    public void highlightPivot(int position) {
+        this.highlightPositionPivot = position;
+        highlightPositionDestination = -1;
+        highlightPosition = -1;
+        highlightPositionShift = new int[]{-1};
+        invalidate();
+    }
+
+    // for destination in TimSort
+    public void highlightDestination(int position) {
+        this.highlightPositionDestination = position;
+        invalidate();
+    }
+
+    // for shift in TimSort
+    public void highlightShift(int[] positions) {
+        this.highlightPositionShift = positions;
+        invalidate();
+    }
+
+    private boolean contains(int[] array, int index) {
+        for(int i = 0; i < array.length; i++) {
+            if(array[i] == index)
+                return true;
+        }
+        return false;
+    }
+
     @Override
     public void onCompleted() {
         this.highlightPosition = -1;
+        this.highlightPositionPivot = -1; // for pivot in TimSort
+        this.highlightPositionDestination = -1; // for destination in TimSort
         this.highlightPositionTwo = -1;
         this.highlightPositionOne = -1;
         invalidate();

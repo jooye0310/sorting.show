@@ -8,11 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 public class TimSortController extends AppCompatActivity {
 
-    TextView unsorted_list;
+    TextView sorted_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +22,19 @@ public class TimSortController extends AppCompatActivity {
 
         initTextViews();
 
-        final int[] intArray = {31,	25,	14,	83,	84,	20,	33,	18,	23,	70,	80,	82,	64,	22,	98,	89,	1, 44};
+        //final int[] input = {31, 25, 14, 83, 84, 20, 33, 18, 23, 70, 80, 82, 64, 22, 98, 89, 1, 44};
+        int[] input = new int[30];
+        for (int i = 0; i < input.length;i++){
+            input[i] = (int)(Math.random() * 15 + 1);
+        }
+        final int[] intArray = input.clone();
+        Arrays.sort(input);
+        String s = Arrays.toString(input);
+        sorted_list.setText(s);
+
         DataSet ds = new DataSet(intArray, 0);
         final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.TIM_SORT, ds);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
-
-        String unsorted = intArrayToString(intArray);
-        unsorted_list.setText(unsorted);
     }
 
     // Converts an integer array to a string
@@ -43,7 +50,7 @@ public class TimSortController extends AppCompatActivity {
     }
 
     private void initTextViews() {
-        unsorted_list = (TextView) findViewById(R.id.unsorted_list);
-        unsorted_list.setText("");
+        sorted_list = (TextView) findViewById(R.id.sorted_list);
+        sorted_list.setText("");
     }
 }
