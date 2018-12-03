@@ -24,6 +24,8 @@ package com.example.yehoon.sorting_show;
  * have any questions.
  */
 
+import android.util.Log;
+
 /**
  * A stable, adaptive, iterative mergesort that requires far fewer than
  * n lg(n) comparisons when running on partially sorted arrays, while
@@ -64,6 +66,8 @@ public class TimSort extends VisualizerController {
      */
     int[] arr;
 
+    int sleepTime = 500;
+
     /*Function to sort array using insertion sort*/
     @Override
     public void run() {
@@ -81,12 +85,63 @@ public class TimSort extends VisualizerController {
         super.onMessageReceived(message);
         if (message.equals(VisualizerController.COMMAND_START_ALGORITHM)) {
             logArray("Original array - " ,arr);
-            //sleepFor(2000);
-            sleep();
+            sleepFor(sleepTime);
             startExecution();
-            sortTemp();
             sort(arr);
+            addLog("Array has been sorted");
+            completed();
         }
+    }
+
+    private void arrayCopy(int[] src, int src_index, int[] dest, int dest_index, int len) {
+        int[] tempArray = new int[len];
+        System.arraycopy(src, src_index, tempArray, 0, len);
+
+        int[] positions = new int[len];
+        String elements = "";
+        for(int i = 0; i < len; i++) {
+            positions[i] = dest_index;
+            dest[dest_index++] = tempArray[i];
+            elements += Integer.toString(tempArray[i]);
+            if(i < len - 1) {
+                elements += ", ";
+            }
+        }
+        addLog("Shift elements: " + elements + ".");
+        highlightShift(positions);
+        sleepFor(sleepTime);
+    }
+
+    private void setPivot(int pivot, int position) {
+        addLog("Set pivot as " + pivot + ".");
+        highlightPivot(position);
+        sleepFor(sleepTime);
+    }
+
+    private void setDestination(int pivot, int destination, int position) {
+        addLog("Going to insert " + pivot + " before " + destination + ".");
+        highlightDestination(position);
+        sleepFor(sleepTime);
+    }
+
+    private void movePivot(int pivot, int position) {
+        addLog("Insert " + pivot + " into pivot destination.");
+        arr[position] = pivot; // pivot = arr[start]
+        highlightPivot(position);
+        sleepFor(sleepTime);
+    }
+
+    private void moveTo(int dest, int src) {
+        addLog("Merge: swap " + src + "th element to " + Integer.toString(dest) + "th element.");
+        highlightTrace(dest);
+        sleepFor(sleepTime);
+    }
+
+    private void mergeSwap(int[] arr1, int val1, int[] arr2, int val2, int base2) {
+        addLog("Merge: swap " + arr1[val1] + " (" + val1 + "th element) and " + arr2[val2] + " (" + (base2 + val2) +"th element).");
+        arr1[val1] = arr2[val2]; // Last elt of run 1 to end of merge
+        highlightTrace(val1);
+        sleepFor(sleepTime);
     }
 
     /**
@@ -106,13 +161,13 @@ public class TimSort extends VisualizerController {
      * of the minimum stack length required as a function of the length
      * of the array being sorted and the minimum merge sequence length.
      */
-    private static final int MIN_MERGE = 32;
+    private static final int MIN_MERGE = 8;
 
     /**
      * When we get into galloping mode, we stay there until both runs win less
      * often than MIN_GALLOP consecutive times.
      */
-    private static final int  MIN_GALLOP = 7;
+    private static final int  MIN_GALLOP = 2;
 
     /**
      * This controls when we get *into* galloping mode.  It is initialized
@@ -153,7 +208,10 @@ public class TimSort extends VisualizerController {
      * Creates a TimSort instance to maintain the state of an ongoing sort.
      *
      */
-    void sortTemp() {
+    //void sortTemp() {
+    public TimSort(int[]arr) {
+        this.arr = arr;
+
         // Allocate temp storage (which may be increased later if necessary)
         int len = arr.length;
         @SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
@@ -172,7 +230,7 @@ public class TimSort extends VisualizerController {
          * the MIN_MERGE declaration above for more information.
          */
         int stackLen = (len <    120  ?  5 :
-                len <   1542  ? 10 :
+                        len <   1542  ? 10 :
                         len < 119151  ? 19 : 40);
         runBase = new int[stackLen];
         runLen = new int[stackLen];
@@ -213,7 +271,7 @@ public class TimSort extends VisualizerController {
          * extending short natural runs to minRun elements, and merging runs
          * to maintain stack invariant.
          */
-        TimSort ts = new TimSort();
+        //TimSort ts = new TimSort(arr);
         int minRun = minRunLength(nRemaining);
         do {
             // Identify next run
@@ -227,8 +285,8 @@ public class TimSort extends VisualizerController {
             }
 
             // Push run onto pending-run stack, and maybe merge
-            ts.pushRun(lo, runLen);
-            ts.mergeCollapse();
+            pushRun(lo, runLen);
+            mergeCollapse();
 
             // Advance to find next run
             lo += runLen;
@@ -237,11 +295,8 @@ public class TimSort extends VisualizerController {
 
         // Merge all remaining runs to complete sort
         assert lo == hi;
-        ts.mergeForceCollapse();
-        assert ts.stackSize == 1;
-
-        /*addLog("Array has been sorted");
-        completed();*/
+        mergeForceCollapse();
+        assert stackSize == 1;
     }
 
     /**
@@ -268,10 +323,7 @@ public class TimSort extends VisualizerController {
             start++;
         for ( ; start < hi; start++) {
             int pivot = arr[start];
-            addLog("Set pivot = " + arr[start]);
-            highlightPivot(start);
-            //sleepFor(2000);
-            sleep();
+            setPivot(pivot, start);
 
             // Set left (and right) to the index where a[start] (pivot) belongs
             int left = lo;
@@ -300,54 +352,17 @@ public class TimSort extends VisualizerController {
              */
             int n = start - left;  // The number of elements to move
             // Switch is just an optimization for arraycopy in default case
-            addLog("Going to insert pivot: " + pivot + " before " + arr[left] + ".");
-            highlightDestination(left);
-            //sleepFor(2000);
-            sleep();
-            switch(n) {
-                /*
-                case 2:
-                    addLog("Case 2: Shift " + arr[left + 1] + " to the right to make room for pivot: " + pivot);
-                    arr[left + 2] = arr[left + 1];
-                    highlightSwap(left + 1, left + 2);
-                    //highlightTrace(left + 2);
-                    sleepFor(2000);
-                case 1:
-                    addLog("Case 1: Shift " + arr[left] + " to to the right make room for pivot: " + pivot);
-                    arr[left + 1] = arr[left];
-                    highlightSwap(left, left + 1);
-                    //highlightTrace(left + 1);
-                    sleepFor(2000);
-                    break;
-                */
-                default:
-                    //System.arraycopy(arr, left, arr, left + 1, n);
-                    int[] tempArray = new int[n];
-                    System.arraycopy(arr, left, tempArray, 0, n);
-
-                    int tempLeft = left;
-                    int[] positions = new int[n];
-                    String positions_str = "";
-                    for(int i = 0; i < n; i++) {
-                        positions[i] = tempLeft;
-                        arr[tempLeft + 1] = tempArray[i];
-                        positions_str = positions_str + Integer.toString(tempArray[i]) + " ";
-                        //highlightSwap(tempLeft, tempLeft + 1);
-                        //highlightTrace(tempLeft + 1);
-                        //sleepFor(2000);
-                        //sleep();
-                        tempLeft++;
-                    }
-                    addLog("Shifting " + positions_str + " to the right to make room for pivot: " + pivot);
-                    highlightShift(positions);
-                    sleep();
+            if(start == left) {
+                addLog("Pivot value already in place.");
+                sleepFor(sleepTime);
             }
-            addLog("Insert the pivot: " + pivot + " to the right spot.");
-            arr[left] = pivot; // pivot = arr[start]
-            highlightPivot(left);
-            //sleepFor(2000);
-            sleep();
+            else {
+                setDestination(pivot, arr[left], left);
+                arrayCopy(arr, left, arr, left + 1, n);
+                movePivot(pivot, left);
+            }
         }
+        clearPositions();
     }
 
     /**
@@ -410,8 +425,7 @@ public class TimSort extends VisualizerController {
             arr[hi--] = t;
             addLog("Swap " + arr[swap_lo] + " and " + arr[swap_hi] + " to change the run as ascending.");
             highlightSwap(swap_lo, swap_hi);
-            sleep();
-            //sleepFor(2000);
+            sleepFor(sleepTime);
         }
     }
 
@@ -549,6 +563,7 @@ public class TimSort extends VisualizerController {
             mergeLo(base1, len1, base2, len2);
         else
             mergeHi(base1, len1, base2, len2);
+        clearPositions();
     }
 
     /**
@@ -713,24 +728,34 @@ public class TimSort extends VisualizerController {
         assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
         // Copy first run into temp array
-        int[] a = this.arr; // For performance
+        //int[] a = this.arr; // For performance
         int[] tmp = ensureCapacity(len1);
-        System.arraycopy(a, base1, tmp, 0, len1);
+        System.arraycopy(arr, base1, tmp, 0, len1);
 
         int cursor1 = 0;       // Indexes into tmp array
         int cursor2 = base2;   // Indexes int a
         int dest = base1;      // Indexes int a
 
         // Move first element of second run and deal with degenerate cases
-        a[dest++] = a[cursor2++];
-        //highlightSwap(dest, cursor2);
+        //arr[dest++] = arr[cursor2++];
+        //moveTo(dest - 1, cursor2 - 1);
+        mergeSwap(arr, dest, arr, cursor2, 0);
+        dest++; cursor2++;
         if (--len2 == 0) {
-            System.arraycopy(tmp, cursor1, a, dest, len1);
+            //System.arraycopy(tmp, cursor1, a, dest, len1);
+            arrayCopy(tmp, cursor1, arr, dest, len1);
             return;
         }
         if (len1 == 1) {
-            System.arraycopy(a, cursor2, a, dest, len2);
-            a[dest + len2] = tmp[cursor1]; // Last elt of run 1 to end of merge
+            //System.arraycopy(arr, cursor2, arr, dest, len2);
+            arrayCopy(arr, cursor2, arr, dest, len2);
+            mergeSwap(arr, dest + len2, tmp, cursor1, base1);
+            /*
+            addLog("Merge: swapping " + (dest + len2) + "th element (" + arr[dest + len2] + ") and " + (base1 + cursor1) +"th element (" + tmp[cursor1] + ").");
+            arr[dest + len2] = tmp[cursor1]; // Last elt of run 1 to end of merge
+            highlightTrace(dest + len2);
+            sleepFor(100);
+            */
             return;
         }
 
@@ -746,15 +771,30 @@ public class TimSort extends VisualizerController {
              */
             do {
                 assert len1 > 1 && len2 > 0;
-                if (a[cursor2] < tmp[cursor1]) {
-                    a[dest++] = a[cursor2++];
-                    //highlightSwap(dest, cursor2);
+                if (arr[cursor2] < tmp[cursor1]) {
+                    mergeSwap(arr, dest, arr, cursor2, 0);
+                    dest++;
+                    cursor2++;
+                    /*
+                    addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + cursor2 +"th element (" + arr[cursor2] + ").");
+                    arr[dest++] = arr[cursor2++];
+                    highlightTrace(dest - 1);
+                    sleepFor(250);
+                    */
                     count2++;
                     count1 = 0;
                     if (--len2 == 0)
                         break outer;
                 } else {
-                    a[dest++] = tmp[cursor1++];
+                    mergeSwap(arr, dest, tmp, cursor1, base1);
+                    dest++;
+                    cursor1++;
+                    /*
+                    addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + (base1 + cursor1) +"th element (" + tmp[cursor1] + ").");
+                    arr[dest++] = tmp[cursor1++];
+                    highlightTrace(dest - 1);
+                    sleepFor(250);
+                    */
                     count1++;
                     count2 = 0;
                     if (--len1 == 1)
@@ -769,30 +809,49 @@ public class TimSort extends VisualizerController {
              */
             do {
                 assert len1 > 1 && len2 > 0;
-                count1 = gallopRight(a[cursor2], tmp, cursor1, len1, 0);
+                count1 = gallopRight(arr[cursor2], tmp, cursor1, len1, 0);
                 if (count1 != 0) {
-                    System.arraycopy(tmp, cursor1, a, dest, count1);
+                    //System.arraycopy(tmp, cursor1, a, dest, count1);
+                    addLog("Gallop right.");
+                    arrayCopy(tmp, cursor1, arr, dest, count1);
                     dest += count1;
                     cursor1 += count1;
                     len1 -= count1;
                     if (len1 <= 1) // len1 == 1 || len1 == 0
                         break outer;
                 }
-                a[dest++] = a[cursor2++];
-                //highlightSwap(dest, cursor2);
+                mergeSwap(arr, dest, arr, cursor2, 0);
+                dest++;
+                cursor2++;
+                /*
+                addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + (cursor2) +"th element (" + arr[cursor2] + ").");
+                arr[dest++] = arr[cursor2++];
+                highlightTrace(dest - 1);
+                sleepFor(250);
+                */
                 if (--len2 == 0)
                     break outer;
 
-                count2 = gallopLeft(tmp[cursor1], a, cursor2, len2, 0);
+                count2 = gallopLeft(tmp[cursor1], arr, cursor2, len2, 0);
                 if (count2 != 0) {
-                    System.arraycopy(a, cursor2, a, dest, count2);
+                    //System.arraycopy(a, cursor2, a, dest, count2);
+                    addLog("Gallop left.");
+                    arrayCopy(arr, cursor2, arr, dest, count2);
                     dest += count2;
                     cursor2 += count2;
                     len2 -= count2;
                     if (len2 == 0)
                         break outer;
                 }
-                a[dest++] = tmp[cursor1++];
+                mergeSwap(arr, dest, tmp, cursor1, base1);
+                dest++;
+                cursor1++;
+                /*
+                addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + (base1 + cursor1) +"th element (" + tmp[cursor1] + ").");
+                arr[dest++] = tmp[cursor1++];
+                highlightTrace(dest - 1);
+                sleepFor(250);
+                */
                 if (--len1 == 1)
                     break outer;
                 minGallop--;
@@ -805,15 +864,23 @@ public class TimSort extends VisualizerController {
 
         if (len1 == 1) {
             assert len2 > 0;
-            System.arraycopy(a, cursor2, a, dest, len2);
-            a[dest + len2] = tmp[cursor1]; //  Last elt of run 1 to end of merge
+            //System.arraycopy(a, cursor2, a, dest, len2);
+            arrayCopy(arr, cursor2, arr, dest, len2);
+            mergeSwap(arr, dest + len2, tmp, cursor1, base1);
+            /*
+            addLog("Merge: swapping " + (dest + len2) + "th element (" + arr[dest + len2] + ") and " + (base1 + cursor1) +"th element (" + arr[cursor1] + ").");
+            arr[dest + len2] = tmp[cursor1]; //  Last elt of run 1 to end of merge
+            highlightTrace(dest + len2);
+            sleepFor(250);
+            */
         } else if (len1 == 0) {
             throw new IllegalArgumentException(
                     "Comparison method violates its general contract!");
         } else {
             assert len2 == 0;
             assert len1 > 1;
-            System.arraycopy(tmp, cursor1, a, dest, len1);
+            //System.arraycopy(tmp, cursor1, a, dest, len1);
+            arrayCopy(tmp, cursor1, arr, dest, len1);
         }
     }
 
@@ -832,26 +899,41 @@ public class TimSort extends VisualizerController {
         assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
 
         // Copy second run into temp array
-        int[] a = this.arr; // For performance
+        int[] arr = this.arr; // For performance
         int[] tmp = ensureCapacity(len2);
-        System.arraycopy(a, base2, tmp, 0, len2);
+        System.arraycopy(arr, base2, tmp, 0, len2);
 
         int cursor1 = base1 + len1 - 1;  // Indexes into a
         int cursor2 = len2 - 1;          // Indexes into tmp array
         int dest = base2 + len2 - 1;     // Indexes into a
 
         // Move last element of first run and deal with degenerate cases
-        a[dest--] = a[cursor1--];
-        //highlightSwap(dest, cursor1);
+        mergeSwap(arr, dest, arr, cursor1, base1);
+        dest--;
+        cursor1--;
+        /*
+        addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + cursor1 +"th element (" + arr[cursor1] + ").");
+        arr[dest--] = arr[cursor1--];
+        highlightTrace(dest + 1);
+        sleepFor(250);
+        */
         if (--len1 == 0) {
-            System.arraycopy(tmp, 0, a, dest - (len2 - 1), len2);
+            //System.arraycopy(tmp, 0, a, dest - (len2 - 1), len2);
+            arrayCopy(tmp, 0, arr, dest - (len2 - 1), len2);
             return;
         }
         if (len2 == 1) {
             dest -= len1;
             cursor1 -= len1;
-            System.arraycopy(a, cursor1 + 1, a, dest + 1, len1);
-            a[dest] = tmp[cursor2];
+            //System.arraycopy(a, cursor1 + 1, a, dest + 1, len1);
+            arrayCopy(arr, cursor1 + 1, arr, dest + 1, len1);
+            mergeSwap(arr, dest, tmp, cursor2, base2);
+            /*
+            addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + (base2 + cursor2) +"th element (" + tmp[cursor1] + ").");
+            arr[dest] = tmp[cursor2];
+            highlightTrace(dest);
+            sleepFor(250);
+            */
             return;
         }
 
@@ -867,15 +949,30 @@ public class TimSort extends VisualizerController {
              */
             do {
                 assert len1 > 0 && len2 > 1;
-                if (tmp[cursor2] < a[cursor1]) {
-                    a[dest--] = a[cursor1--];
-                    //highlightSwap(dest, cursor1);
+                if (tmp[cursor2] < arr[cursor1]) {
+                    mergeSwap(arr, dest, arr, cursor1, 0);
+                    dest--;
+                    cursor1--;
+                    /*
+                    addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + cursor1 +"th element (" + arr[cursor1] + ").");
+                    arr[dest--] = arr[cursor1--];
+                    highlightTrace(dest + 1);
+                    sleepFor(250);
+                    */
                     count1++;
                     count2 = 0;
                     if (--len1 == 0)
                         break outer;
                 } else {
-                    a[dest--] = tmp[cursor2--];
+                    mergeSwap(arr, dest, tmp, cursor2, base2);
+                    dest--;
+                    cursor2--;
+                    /*
+                    addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + (base2 + cursor2) +"th element (" + tmp[cursor2] + ").");
+                    arr[dest--] = tmp[cursor2--];
+                    highlightTrace(dest + 1);
+                    sleepFor(250);
+                    */
                     count2++;
                     count1 = 0;
                     if (--len2 == 1)
@@ -890,30 +987,49 @@ public class TimSort extends VisualizerController {
              */
             do {
                 assert len1 > 0 && len2 > 1;
-                count1 = len1 - gallopRight(tmp[cursor2], a, base1, len1, len1 - 1);
+                count1 = len1 - gallopRight(tmp[cursor2], arr, base1, len1, len1 - 1);
                 if (count1 != 0) {
                     dest -= count1;
                     cursor1 -= count1;
                     len1 -= count1;
-                    System.arraycopy(a, cursor1 + 1, a, dest + 1, count1);
+                    //System.arraycopy(a, cursor1 + 1, a, dest + 1, count1);
+                    addLog("Gallop right.");
+                    arrayCopy(arr, cursor1 + 1, arr,dest + 1, count1);
                     if (len1 == 0)
                         break outer;
                 }
-                a[dest--] = tmp[cursor2--];
+                mergeSwap(arr, dest, tmp, cursor2, base2);
+                dest--;
+                cursor2--;
+                /*
+                addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + (base2 + cursor2) +"th element (" + tmp[cursor2] + ").");
+                arr[dest--] = tmp[cursor2--];
+                highlightTrace(dest + 1);
+                sleepFor(250);
+                */
                 if (--len2 == 1)
                     break outer;
 
-                count2 = len2 - gallopLeft(a[cursor1], tmp, 0, len2, len2 - 1);
+                count2 = len2 - gallopLeft(arr[cursor1], tmp, 0, len2, len2 - 1);
                 if (count2 != 0) {
                     dest -= count2;
                     cursor2 -= count2;
                     len2 -= count2;
-                    System.arraycopy(tmp, cursor2 + 1, a, dest + 1, count2);
+                    //System.arraycopy(tmp, cursor2 + 1, a, dest + 1, count2);
+                    addLog("Gallop left.");
+                    arrayCopy(tmp, cursor2 + 1, arr, dest + 1, count2);
                     if (len2 <= 1)  // len2 == 1 || len2 == 0
                         break outer;
                 }
-                a[dest--] = a[cursor1--];
-                //highlightSwap(dest, cursor1);
+                mergeSwap(arr, dest, arr, cursor1, 0);
+                dest--;
+                cursor1--;
+                /*
+                addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + cursor1 +"th element (" + arr[cursor1] + ").");
+                arr[dest--] = arr[cursor1--];
+                highlightTrace(dest + 1);
+                sleepFor(250);
+                */
                 if (--len1 == 0)
                     break outer;
                 minGallop--;
@@ -928,15 +1044,23 @@ public class TimSort extends VisualizerController {
             assert len1 > 0;
             dest -= len1;
             cursor1 -= len1;
-            System.arraycopy(a, cursor1 + 1, a, dest + 1, len1);
-            a[dest] = tmp[cursor2];  // Move first elt of run2 to front of merge
+            //System.arraycopy(a, cursor1 + 1, a, dest + 1, len1);
+            arrayCopy(arr, cursor1 + 1, arr ,dest + 1, len1);
+            mergeSwap(arr, dest, tmp, cursor2, base2);
+            /*
+            addLog("Merge: swapping " + dest + "th element (" + arr[dest] + ") and " + (base2 + cursor2) +"th element (" + tmp[cursor2] + ").");
+            arr[dest] = tmp[cursor2];  // Move first elt of run2 to front of merge
+            highlightTrace(dest);
+            sleepFor(250);
+            */
         } else if (len2 == 0) {
             throw new IllegalArgumentException(
                     "Comparison method violates its general contract!");
         } else {
             assert len1 == 0;
             assert len2 > 0;
-            System.arraycopy(tmp, 0, a, dest - (len2 - 1), len2);
+            //System.arraycopy(tmp, 0, a, dest - (len2 - 1), len2);
+            arrayCopy(tmp, 0, arr, dest - (len2 - 1), len2);
         }
     }
 

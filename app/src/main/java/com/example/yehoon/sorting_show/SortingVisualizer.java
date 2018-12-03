@@ -161,6 +161,17 @@ public class SortingVisualizer extends AlgorithmVisualizer {
         invalidate();
     }
 
+    // for clear in TimSort
+    public void clearPositions() {
+        this.highlightPosition = -1;
+        this.highlightPositionShift = new int[]{-1}; // for shift in TimSort
+        this.highlightPositionPivot = -1; // for pivot in TimSort
+        this.highlightPositionDestination = -1; // for destination in TimSort
+        this.highlightPositionTwo = -1;
+        this.highlightPositionOne = -1;
+        invalidate();
+    }
+
     private boolean contains(int[] array, int index) {
         for(int i = 0; i < array.length; i++) {
             if(array[i] == index)
@@ -172,6 +183,7 @@ public class SortingVisualizer extends AlgorithmVisualizer {
     @Override
     public void onCompleted() {
         this.highlightPosition = -1;
+        this.highlightPositionShift = new int[]{-1};
         this.highlightPositionPivot = -1; // for pivot in TimSort
         this.highlightPositionDestination = -1; // for destination in TimSort
         this.highlightPositionTwo = -1;

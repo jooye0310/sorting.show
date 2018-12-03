@@ -233,6 +233,15 @@ public class VisualizerController extends HandlerThread implements DataHandler {
         });
     }
 
+    public void clearPositions() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visualizer.clearPositions();
+            }
+        });
+    }
+
     @Override
     public void onDataRecieved(Object data) {
 

@@ -165,7 +165,7 @@ public class MainFragment extends Fragment{
             case VisualizerController.TIM_SORT:
                 visualizer = new SortingVisualizer(getActivity());
                 appBarLayout.addView(visualizer);
-                algorithm = new TimSort();
+                algorithm = new TimSort(new int[]{});
                 algorithm.setSort((SortingVisualizer) visualizer, getActivity(), logFragment);
                 ((TimSort) algorithm).setData((DataSet) ds);
                 setFontSize(10);
