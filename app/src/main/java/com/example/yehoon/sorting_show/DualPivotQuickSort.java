@@ -1,5 +1,7 @@
 package com.example.yehoon.sorting_show;
 
+import java.util.Arrays;
+
 public class DualPivotQuickSort extends VisualizerController{
 
     @Override
@@ -36,6 +38,9 @@ public class DualPivotQuickSort extends VisualizerController{
 
     private void partition(int[] arr, int low, int high, Pivots ps)
     {
+        addLog("Current partition is from " +low + " to " + high);
+
+
         if (arr[low] > arr[high])
             swap(arr, low, high);
         // p is the left pivot, and q is the right pivot.
@@ -44,10 +49,15 @@ public class DualPivotQuickSort extends VisualizerController{
         int k = low + 1;
         int p = arr[low];
         addLog("Left pivot is " + arr[low] + " in index " + low);
-        int q = arr[high];
-        addLog("Right pivot is " + arr[high] + " in index " + high);
-        highlightSwap(low, high);
+        highlightTrace(low);
         sleep();
+        int q = arr[high];
+
+        addLog("Right pivot is " + arr[high] + " in index " + high);
+        highlightDestination(high);
+        sleep();
+
+
         while (k <= g) {
 
             // if elements are less than the left pivot
@@ -74,6 +84,7 @@ public class DualPivotQuickSort extends VisualizerController{
         g++;
 
         // bring pivots to their appropriate positions.
+        addLog("Restore the pivots");
         swap(arr, low, j);
         swap(arr, high, g);
 
