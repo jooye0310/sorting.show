@@ -59,7 +59,7 @@ public class SortingVisualizer extends AlgorithmVisualizer {
 
         // for destination in TimSort
         highlightPaintDestination = new Paint(paint);
-        highlightPaintDestination.setColor(Color.GREEN);
+        highlightPaintDestination.setColor(getResources().getColor(R.color.colorDestination));
 
         // for shift in TimSort
         highlightPaintShift = new Paint(paint);
@@ -161,7 +161,7 @@ public class SortingVisualizer extends AlgorithmVisualizer {
         invalidate();
     }
 
-    // for clear in TimSort
+
     public void clearPositions() {
         this.highlightPosition = -1;
         this.highlightPositionShift = new int[]{-1}; // for shift in TimSort

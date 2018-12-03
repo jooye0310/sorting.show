@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorPivot">#C32CE1</color>
-    <color name="colorShift">#5E44DF</color>
+    <color name="colorShift">#D2691E</color>
+    <color name="colorDestination">#00BFFF</color>
 </resources>
