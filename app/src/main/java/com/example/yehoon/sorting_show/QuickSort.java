@@ -18,6 +18,8 @@ public class QuickSort extends VisualizerController
     {
         int pivot = arr[high];
         addLog(pivot + " is a new pivot for array index from" + low + " to " + high);
+        sleep();
+        sleep();
         int i = (low-1); // index of smaller element
         for (int j=low; j<high; j++)
         {

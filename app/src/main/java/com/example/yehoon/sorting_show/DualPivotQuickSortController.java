@@ -35,7 +35,7 @@ public class DualPivotQuickSortController extends AppCompatActivity {
         sorted_list.setText(s);
 
         DataSet ds = new DataSet(intArray, 0);
-        final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.QUICKSORT, ds);
+        final MainFragment algoFragment = MainFragment.newInstance(VisualizerController.DUALPIVOTQUICKSORT, ds);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, algoFragment).commit();
 
     }
