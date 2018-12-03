@@ -22,9 +22,9 @@ public class TimSortController extends AppCompatActivity {
 
         initTextViews();
 
-        int[] input = new int[59];
+        int[] input = new int[48];
         for (int i = 0; i < input.length;i++){
-            input[i] = (int)(Math.random() * 45 + 1);
+            input[i] = (int)(Math.random() * 44 + 1);
         }
         final int[] intArray = input.clone();
         Arrays.sort(input);

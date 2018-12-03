@@ -66,7 +66,7 @@ public class TimSort extends VisualizerController {
      */
     int[] arr;
 
-    int sleepTime = 250;
+    int sleepTime = 150;
 
     /*Function to sort array using insertion sort*/
     @Override
@@ -132,6 +132,7 @@ public class TimSort extends VisualizerController {
     }
 
     private void mergeSwap(int[] arr1, int val1, int[] arr2, int val2, int base2) {
+        clearPositions();
         addLog("Merge: swap " + arr1[val1] + " (" + val1 + "th element) and " + arr2[val2] + " (" + (base2 + val2) +"th element).");
         arr1[val1] = arr2[val2]; // Last elt of run 1 to end of merge
         highlightTrace(val1);
